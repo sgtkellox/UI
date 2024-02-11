@@ -1,0 +1,24 @@
+#parent{
+	  -fx-background-color : rgb(23,147,207); 
+	  -fx-padding: 5 5 5 5;
+	  -fx-spacing: 8;
+}
+
+.button{
+	-fx-pref-height: 28px;
+    -fx-pref-width: 200px;
+}
+
+.text-field{
+	-fx-pref-height: 28px;
+    -fx-pref-width: 400px;
+}
+
+#popup{
+	
+	 -fx-border-color:  rgb(23,147,207) ;
+	 -fx-background-color :grey;
+     -fx-border-width: 5 ; 
+	 -fx-padding: 5 5 5 5;
+	 -fx-spacing: 8;
+}

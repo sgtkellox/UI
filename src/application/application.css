@@ -1,0 +1,39 @@
+
+
+#ParentPlane{
+    -fx-background-image: url("background.jpg");
+    
+}
+
+#title{
+	  -fx-background-color : rgb(123,126,227);  
+}
+
+.button {
+    -fx-padding: 10;
+    -fx-pref-width: 200px;
+}
+
+#sessionSelector{
+	-fx-padding: 10;
+	
+}
+
+.vbox{
+	-fx-spacing: 10;
+}
+
+.header{
+	-fx-alignment: center;
+}
+
+.next{
+	-fx-alignment: center-right;
+}
+
+.caption{
+	-fx-font-size: 20px;
+}
+
+
+
