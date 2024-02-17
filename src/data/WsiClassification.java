@@ -1,31 +1,42 @@
 package data;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
+
 public class WsiClassification {
-	private int wsiWith;
-	private int wsiHeight;
-	private int tileSize;
+	
 	private String slideClassification;
+	private int tileSize;
+	private int magnification;
+	private WSI wsi;
 	private List<TileClassification> tileClassifications;
-	public int getWsiWith() {
-		return wsiWith;
+	private List<String> possibleClassifications;
+	
+	public WsiClassification() {
+		
 	}
-	public void setWsiWith(int wsiWith) {
-		this.wsiWith = wsiWith;
-	}
-	public int getWsiHeight() {
-		return wsiHeight;
-	}
-	public void setWsiHeight(int wsiHeight) {
-		this.wsiHeight = wsiHeight;
-	}
+
 	public int getTileSize() {
 		return tileSize;
 	}
 	public void setTileSize(int tileSize) {
 		this.tileSize = tileSize;
 	}
+	public int getMagnification() {
+		return magnification;
+	}
+	public void setMagnification(int magnification) {
+		this.magnification = magnification;
+	}
+	
 	public List<TileClassification> getTileClassifications() {
 		return tileClassifications;
 	}
@@ -38,6 +49,66 @@ public class WsiClassification {
 	public void setSlideClassification(String slideClassification) {
 		this.slideClassification = slideClassification;
 	}
+	
+	public List<String> getPossibleClassifications() {
+		return possibleClassifications;
+	}
+
+	public void setPossibleClassifications(List<String> possibleClassifications) {
+		this.possibleClassifications = possibleClassifications;
+	}
+	public WSI getWsi() {
+		return wsi;
+	}
+
+	public void setWsi(WSI wsi) {
+		this.wsi = wsi;
+	}
+	
+	
+	private int[] calcShiftValues() {
+		int xMin = 100000;
+		int xMax = 0;
+		int yMin = 100000;
+		int yMax = 0;
+		
+		for(TileClassification tc: tileClassifications) {
+			int xTile = tc.getTile().getX();
+			int yTile = tc.getTile().getY();
+			if(xTile<xMin) {
+				xMin = xTile;
+			}
+			if(xTile>xMax) {
+				xMax = xTile;
+			}
+			if(yTile<yMin) {
+				xMin = xTile;
+			}
+			if(yTile>xMax) {
+				xMax = yMax;
+			}
+		}
+		int[] result = new int[4] ;
+		result[0] = xMin;
+		result[1] = xMax;
+		result[2] = xMin;
+		result[3] = xMin;
+	}
+	
+	public void makeVisualisation() {
+		
+		for(TileClassification tc : tileClassifications) {
+			int[] pos = tc.getScaledPosition();
+			
+			
+			
+		}	
+	}
+
+	
+	
+
+	
 
 }
 

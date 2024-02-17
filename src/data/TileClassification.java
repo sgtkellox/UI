@@ -3,23 +3,18 @@ package data;
 import java.util.List;
 
 public class TileClassification {
-	private int x;
-	private int y;
+	
 	private String label;
 	private List<String> labels;
+	private Tile tile;
+	private int xShift;
+	private int yShift;
 	
-	public int getX() {
-		return x;
+	public TileClassification() {
+		
 	}
-	public void setX(int x) {
-		this.x = x;
-	}
-	public int getY() {
-		return y;
-	}
-	public void setY(int y) {
-		this.y = y;
-	}
+	
+	
 	public String getLabel() {
 		return label;
 	}
@@ -32,6 +27,25 @@ public class TileClassification {
 	public void setLabels(List<String> labels) {
 		this.labels = labels;
 	}
+	public Tile getTile() {
+		return tile;
+	}
+	public void setTile(Tile tile) {
+		this.tile = tile;
+	}
+	
+	public int[] getScaledPosition() {
+		int x = (tile.getX()-xShift)/tile.getSize();
+		int y = (tile.getY()-yShift)/tile.getSize();
+		
+		int[] scaledPos = new int[2];
+		scaledPos[0] = x;
+		scaledPos[1] = y;
+		return scaledPos;
+	}
+	 
+	
+	
 	
 
 }

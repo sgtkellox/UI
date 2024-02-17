@@ -33,18 +33,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root,700,700);
 			//MicasenseExifExtractor.extractMetaDataFromFile("C:\\Users\\felix\\Desktop\\RaggerTal\\0005SET\\000\\IMG_0000_1.tif");
 			
-			Opener opener = new Opener();
 			
-			BufferedImage image = ImageIO.read(new File("E:\\newEntities\\EPN-N14-2304-K-Q2.svs"));
-			
-			Image fximage = SwingFXUtils.toFXImage(image, null);
-			ImageView imageView = new ImageView(fximage);
-			Stage newWindow = new Stage();
-			HBox box = new HBox();
-			box.getChildren().add(imageView);
-			Scene shower = new Scene(box,700,700);
-			newWindow.setScene(shower);
-			newWindow.show();
 			
 			
 			
