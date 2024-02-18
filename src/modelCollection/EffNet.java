@@ -21,7 +21,7 @@ import vegetationIndices.Calculator;
 
 import yolointerface.ImageContainer;
 
-public class EffNet {
+public class EffNet extends Task<Object> {
 
 	Predictor<Image, Classifications> predictor;
 
@@ -100,6 +100,14 @@ public class EffNet {
 
 	public void setModelPath(String modelPath) {
 		this.modelPath = modelPath;
+	}
+
+
+
+	@Override
+	protected Object call() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

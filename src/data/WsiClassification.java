@@ -66,34 +66,7 @@ public class WsiClassification {
 	}
 	
 	
-	private int[] calcShiftValues() {
-		int xMin = 100000;
-		int xMax = 0;
-		int yMin = 100000;
-		int yMax = 0;
-		
-		for(TileClassification tc: tileClassifications) {
-			int xTile = tc.getTile().getX();
-			int yTile = tc.getTile().getY();
-			if(xTile<xMin) {
-				xMin = xTile;
-			}
-			if(xTile>xMax) {
-				xMax = xTile;
-			}
-			if(yTile<yMin) {
-				xMin = xTile;
-			}
-			if(yTile>xMax) {
-				xMax = yMax;
-			}
-		}
-		int[] result = new int[4] ;
-		result[0] = xMin;
-		result[1] = xMax;
-		result[2] = xMin;
-		result[3] = xMin;
-	}
+	
 	
 	public void makeVisualisation() {
 		
