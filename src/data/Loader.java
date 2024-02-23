@@ -10,7 +10,8 @@ import javafx.stage.Stage;
 
 public class Loader {
 	
-	public static List<WSI> loadWSIsFromTiles(){
+	public static SlideList loadWSIsFromTiles(){
+		
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		
 		File selectedDirectory = directoryChooser.showDialog(new Stage());
@@ -20,8 +21,10 @@ public class Loader {
 		}
 		
 		ArrayList<File> files = filterImageList(selectedDirectory.listFiles());
-		List<WSI> wsis = createWsisFromTiles(files);
-		return wsis;
+		List<Slide> wsis = createWsisFromTiles(files);
+		SlideList slideList = new SlideList();
+		slideList.setSlides(wsis);
+		return slideList;
 	}
 	
 	private static ArrayList<File> filterImageList(File[] files) {
@@ -34,18 +37,18 @@ public class Loader {
 		return filtered;
 	}
 	
-	private WSI createWsiFromTiles(String name, List<Tile> tiles) {
+	private Slide createWsiFromTiles(String name, List<Tile> tiles) {
 		
-		WSI wsi = new WSI();	
+		Slide wsi = new Slide();	
 		return wsi;	
 	}
 	
-	private static List<WSI> createWsisFromTiles(List<File> files) {
+	private static List<Slide> createWsisFromTiles(List<File> files) {
 		HashMap<String,List<Tile>> wsis = sortByWsi(files);
-		ArrayList<WSI> results = new ArrayList<WSI>();
+		ArrayList<Slide> results = new ArrayList<Slide>();
 		
 		for(String wsiName: wsis.keySet()) {
-			WSI wsi = new WSI(wsiName,wsis.get(wsiName));
+			Slide wsi = new Slide(wsiName,wsis.get(wsiName));
 			results.add(wsi);
 		}	
 		return results;

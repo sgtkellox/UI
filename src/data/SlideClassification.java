@@ -11,16 +11,16 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
-public class WsiClassification {
+public class SlideClassification {
 	
 	private String slideClassification;
 	private int tileSize;
 	private int magnification;
-	private WSI wsi;
+	private Slide wsi;
 	private List<TileClassification> tileClassifications;
 	private List<String> possibleClassifications;
 	
-	public WsiClassification() {
+	public SlideClassification() {
 		
 	}
 
@@ -57,11 +57,11 @@ public class WsiClassification {
 	public void setPossibleClassifications(List<String> possibleClassifications) {
 		this.possibleClassifications = possibleClassifications;
 	}
-	public WSI getWsi() {
+	public Slide getWsi() {
 		return wsi;
 	}
 
-	public void setWsi(WSI wsi) {
+	public void setWsi(Slide wsi) {
 		this.wsi = wsi;
 	}
 	

@@ -1,11 +1,7 @@
 package gui;
 
 import org.kordamp.ikonli.javafx.FontIcon;
-
 import com.jfoenix.controls.JFXDrawer;
-
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
@@ -19,23 +15,15 @@ import javafx.stage.Stage;
 public class RootPane extends BorderPane {
 
 	private HBox topStripe;
-	private HBox bot;
+	
 	private ImageView logo;
-	private FontIcon twitterIcon;
+	
 	private FontIcon openIcon;
 	private FontIcon closeIcon;
-	private FontIcon ytIcon;
-	private FontIcon instaIcon;
-	private FontIcon linkeInIcon;
-	private Label lblCopyRight;
+	
 
 	private Region topSpacer;
-	private Region botSpacer;
-	
-
-	
-	
-	
+		
 	JFXDrawer drawer;
 
 	public RootPane() {
@@ -51,20 +39,15 @@ public class RootPane extends BorderPane {
 		menuBar.getMenus().addAll(menuFile, menuSettings, menuHelp);
 
 		topStripe = new HBox();
-		bot = new HBox();
+		
 		topStripe.setId("title");
-		bot.setId("title");
-
+		
 		VBox top = new VBox();
 
 		ControlPane workTab = new ControlPane(display);
 		drawer = new JFXDrawer();
 		drawer.setSidePane(workTab);
-		
-		
-		
-		
-		
+				
 		closeIcon = new FontIcon("dashicons-arrow-left-alt");
 		openIcon = new FontIcon("dashicons-arrow-right-alt");
 		
@@ -95,37 +78,21 @@ public class RootPane extends BorderPane {
 
 		this.setLeft(drawer);
 
-		lblCopyRight = new Label("Neuropathologie Heidelberg");
-		lblCopyRight.setId("copyright");
-
 		logo = new ImageView();
 		Image image = new Image("02_Logo_UKHD.png");
 
 		logo.setImage(image);
 		logo.setPreserveRatio(true);
-
-		botSpacer = new Region();
-		botSpacer.setPrefWidth(300);
-		
+	
 		topSpacer = new Region();
 		topSpacer.setPrefWidth(300);
 
-		twitterIcon = new FontIcon("dashicons-twitter");
-		ytIcon = new FontIcon("dashicons-youtube");
-		linkeInIcon = new FontIcon("dashicons-linkedin");
-		instaIcon = new FontIcon("dashicons-instagram");
-
-		
-		
-		
-
 		top.getChildren().addAll(menuBar,topStripe);
 		topStripe.getChildren().addAll(buttonHolder,topSpacer, logo);
-		bot.getChildren().addAll(lblCopyRight, botSpacer, twitterIcon, instaIcon, linkeInIcon, ytIcon);
-		bot.setAlignment(Pos.CENTER_LEFT);
+		
 
 		this.setTop(top);
-		this.setBottom(bot);
+		
 		this.setCenter(display);
 		
 		this.getLeft().setVisible(false);
@@ -138,28 +105,18 @@ public class RootPane extends BorderPane {
 		stage.heightProperty().addListener((obs, oldVal, newVal) -> {
 			double desiredHight = ((double) newVal) * 0.05;
 			topStripe.setPrefHeight(desiredHight);
-			bot.setPrefHeight(desiredHight);
+			
 			logo.setFitHeight(desiredHight);
-
-			double iconSize = desiredHight * 0.6;
-			twitterIcon.setStyle("-fx-icon-size:" + Double.toString(iconSize) + ";");
-			ytIcon.setStyle("-fx-icon-size:" + Double.toString(iconSize) + ";");
-			linkeInIcon.setStyle("-fx-icon-size:" + Double.toString(iconSize) + ";");
-			instaIcon.setStyle("-fx-icon-size:" + Double.toString(iconSize) + ";");
-			lblCopyRight.setStyle("-fx-font-size:" + Double.toString(iconSize*0.5) + ";");
-			
-			
+					
 			closeIcon.setStyle("-fx-icon-size:" + Double.toString(desiredHight) + ";");
 			openIcon.setStyle("-fx-icon-size:" + Double.toString(desiredHight) + ";");
 
 		});
 		
 		stage.widthProperty().addListener((obs, oldVal, newVal) -> {
-			
-			
-			double desiredWidthBot = ((double) newVal) * 0.84;
+						
 			double desiredWidthTop = ((double) newVal) * 0.92;
-			botSpacer.setPrefWidth(desiredWidthBot);
+			
 			topSpacer.setPrefWidth(desiredWidthTop);
 			drawer.setDefaultDrawerSize(((double) newVal)*0.2);
 

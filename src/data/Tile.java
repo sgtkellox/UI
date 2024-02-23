@@ -1,6 +1,7 @@
 package data;
 
 public class Tile {
+	private String path;
 	private String WSIName;
 	private int x;
 	private int y;
@@ -54,6 +55,12 @@ public class Tile {
 	}
 	public void setWSIName(String wSIName) {
 		WSIName = wSIName;
+	}
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
 	}
 	
 	

@@ -10,28 +10,36 @@ import ai.djl.Model;
 import ai.djl.inference.*;
 import ai.djl.modality.*;
 import ai.djl.modality.cv.*;
-
+import ai.djl.modality.cv.output.DetectedObjects;
+import ai.djl.modality.cv.output.DetectedObjects.DetectedObject;
 import ai.djl.modality.cv.transform.*;
 import ai.djl.modality.cv.translator.*;
 import ai.djl.repository.zoo.*;
 import ai.djl.translate.*;
+import data.Slide;
+import data.SlideClassification;
+import data.SlideList;
+import data.Tile;
 import ai.djl.training.util.*;
 import javafx.concurrent.Task;
 import vegetationIndices.Calculator;
-
+import yolointerface.Detection;
 import yolointerface.ImageContainer;
+import yolointerface.ImageType;
 
 public class EffNet extends Task<Object> {
 
 	Predictor<Image, Classifications> predictor;
 
-	ImageContainer container = ImageContainer.instance();
+	
 
 	private String modelPath = "D:\\non_glial\\non_glial\\test.pt";
 
-	Calculator calculator = new Calculator();
 	
-	ArrayList<String> synset = new ArrayList<String>();
+	
+	private ArrayList<String> synset = new ArrayList<String>();
+	
+	private Slide slide;
 	
 
 	public EffNet() {
@@ -42,6 +50,13 @@ public class EffNet extends Task<Object> {
 		synset.add("MET");
 		synset.add("PIT");
 		synset.add("SCHW");
+		
+		
+
+	}
+
+	@Override
+	protected Object call() throws Exception {
 		Translator<Image, Classifications> translator = ImageClassificationTranslator.builder()
 		        .addTransform(new ToTensor())
 		        .addTransform(new Normalize(
@@ -64,15 +79,35 @@ public class EffNet extends Task<Object> {
 			model.load(Paths.get(modelPath));
 			model = criteria.loadModel();
 			predictor = model.newPredictor(translator);
+			
+			int count = slide.getTiles().size();
+
+			int index = 0;
+			
+			SlideClassification slidePrediction = new SlideClassification();
+
+			for (Tile tile : slide.getTiles()) {
+				
+				
+				Image img = ImageFactory.getInstance().fromFile(Paths.get(tile.getPath()));
+				img.getWrappedImage();
+				
+				Classifications classifications = predictor.predict(img);
+				System.out.println(classifications.getAsString());
+				
+				index++;
+				this.updateProgress(index, count);
+				
+			}
 
 			
 			
-			Image img = ImageFactory.getInstance().fromFile(Paths.get("D:\\testSets\\384_10x\\LYM\\LYM-N14-3029-K-Q2_768_4224.jpg"));
-			img.getWrappedImage();
+			
+			
 				
 			
-			Classifications classifications = predictor.predict(img);
-			System.out.println(classifications.getAsString());
+			
+			
 			
 		} catch (ModelNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -88,12 +123,9 @@ public class EffNet extends Task<Object> {
 			e.printStackTrace();
 		}
 
-		
-
+		return null;
 	}
-
 	
-
 	public String getModelPath() {
 		return modelPath;
 	}
@@ -102,12 +134,13 @@ public class EffNet extends Task<Object> {
 		this.modelPath = modelPath;
 	}
 
-
-
-	@Override
-	protected Object call() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Slide getSlide() {
+		return slide;
 	}
+
+	public void setSlide(Slide slide) {
+		this.slide = slide;
+	}
+
 
 }

@@ -2,7 +2,7 @@ package data;
 
 import java.util.List;
 
-public class WSI {
+public class Slide {
 	private int wsiWith;
 	private int wsiHeight;
 	private String name;
@@ -10,11 +10,11 @@ public class WSI {
 	private int emptyBorderY;
 	private List<Tile> tiles;
 	
-	public WSI() {
+	public Slide() {
 		
 	}
 	
-	public WSI(String name ,List<Tile> tiles) {
+	public Slide(String name ,List<Tile> tiles) {
 		this.tiles = tiles;
 		this.name = name;
 		
