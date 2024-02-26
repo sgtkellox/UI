@@ -11,7 +11,7 @@
 
 .text-field{
 	-fx-pref-height: 28px;
-    -fx-pref-width: 400px;
+    -fx-pref-width: 150px;
 }
 
 #popup{

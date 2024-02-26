@@ -1,31 +1,27 @@
 package modelCollection;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import ai.djl.Device;
 import ai.djl.MalformedModelException;
 import ai.djl.Model;
 import ai.djl.inference.*;
 import ai.djl.modality.*;
 import ai.djl.modality.cv.*;
-import ai.djl.modality.cv.output.DetectedObjects;
-import ai.djl.modality.cv.output.DetectedObjects.DetectedObject;
 import ai.djl.modality.cv.transform.*;
 import ai.djl.modality.cv.translator.*;
 import ai.djl.repository.zoo.*;
 import ai.djl.translate.*;
 import data.Slide;
 import data.SlideClassification;
-import data.SlideList;
+
 import data.Tile;
 import ai.djl.training.util.*;
 import javafx.concurrent.Task;
-import vegetationIndices.Calculator;
-import yolointerface.Detection;
-import yolointerface.ImageContainer;
-import yolointerface.ImageType;
+
+
 
 public class EffNet extends Task<Object> {
 
@@ -33,7 +29,7 @@ public class EffNet extends Task<Object> {
 
 	
 
-	private String modelPath = "D:\\non_glial\\non_glial\\test.pt";
+	private String modelPath = "D:\\kryo\\non_glial\\non_glial\\test.pt";
 
 	
 	
@@ -70,6 +66,7 @@ public class EffNet extends Task<Object> {
 		        .optModelPath(Paths.get(modelPath))
 		        .optOption("mapLocation", "true") // this model requires mapLocation for GPU
 		        .optTranslator(translator)
+		        .optDevice(Device.gpu())
 		        .optProgress(new ProgressBar()).build();
 
 		
@@ -88,7 +85,7 @@ public class EffNet extends Task<Object> {
 
 			for (Tile tile : slide.getTiles()) {
 				
-				
+				System.out.println(tile.getPath());
 				Image img = ImageFactory.getInstance().fromFile(Paths.get(tile.getPath()));
 				img.getWrappedImage();
 				
@@ -140,6 +137,10 @@ public class EffNet extends Task<Object> {
 
 	public void setSlide(Slide slide) {
 		this.slide = slide;
+	}
+	
+	private Tile createTileClassification(String json) {
+		return null;
 	}
 
 

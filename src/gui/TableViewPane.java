@@ -38,8 +38,6 @@ public class TableViewPane extends VBox {
                 	Detection rowData = row.getItem();
                 	if(rowData.getType().equals(ImageType.RGB)) {
                 		parent.rgbPane.hightLightDetection(rowData);
-                	}else {
-                		parent.cirPane.hightLightDetection(rowData);
                 	}
                     
                 }

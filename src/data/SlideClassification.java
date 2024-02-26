@@ -1,15 +1,7 @@
 package data;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.imageio.ImageIO;
-
-import javafx.scene.image.Image;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
-import javafx.scene.paint.Color;
 
 public class SlideClassification {
 	
@@ -19,9 +11,11 @@ public class SlideClassification {
 	private Slide wsi;
 	private List<TileClassification> tileClassifications;
 	private List<String> possibleClassifications;
+	private HashMap<String, Double> sumConfidenzes; 
+	private HashMap<String, Double> wheightedSumConfidenzes;
 	
 	public SlideClassification() {
-		
+		wheightedSumConfidenzes = new HashMap<String, Double>();
 	}
 
 	public int getTileSize() {
@@ -65,7 +59,25 @@ public class SlideClassification {
 		this.wsi = wsi;
 	}
 	
+	public HashMap<String, Double> getSumConfidenzes() {
+		return sumConfidenzes;
+	}
+
+	public HashMap<String, Double> getWheightedSumConfidenzes() {
+		return wheightedSumConfidenzes;
+	}
 	
+	public void calcWeightedSums() {
+		for(String label: this.possibleClassifications) {
+			wheightedSumConfidenzes.put(label, 0.0);
+		}
+			
+		for(TileClassification tileClassification : tileClassifications) {
+			String label = tileClassification.getLabel();
+			Double d = this.wheightedSumConfidenzes.get(label)+tileClassification.getConfidenz();
+			wheightedSumConfidenzes.put(label, d);
+		}
+	}
 	
 	
 	public void makeVisualisation() {
@@ -77,6 +89,8 @@ public class SlideClassification {
 			
 		}	
 	}
+
+	
 
 	
 	

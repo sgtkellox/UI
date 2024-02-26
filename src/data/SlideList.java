@@ -1,11 +1,15 @@
 package data;
 
+
 import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class SlideList {
 	
 	private Preparations prep;
-	private List<Slide> slides;
+	private ObservableList<Slide> slides = FXCollections.observableArrayList();
 	
 	
 	
@@ -27,13 +31,13 @@ public class SlideList {
 
 
 
-	public List<Slide> getSlides() {
+	public ObservableList<Slide> getSlides() {
 		return slides;
 	}
 
 
 
-	public void setSlides(List<Slide> slides) {
+	public void setSlides(ObservableList<Slide> slides) {
 		this.slides = slides;
 	}
 

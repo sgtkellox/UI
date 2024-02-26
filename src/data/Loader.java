@@ -5,26 +5,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 public class Loader {
 	
-	public static SlideList loadWSIsFromTiles(){
+	static SlideContainer sLideContainer = SlideContainer.instance();
+	
+	public static void loadWSIsFromTiles(){
 		
-		DirectoryChooser directoryChooser = new DirectoryChooser();
+		//DirectoryChooser directoryChooser = new DirectoryChooser();
 		
-		File selectedDirectory = directoryChooser.showDialog(new Stage());
+		//File selectedDirectory = directoryChooser.showDialog(new Stage());
 		
+		File selectedDirectory = new File("D:\\testSets\\kryo\\non-glial\\384_10x\\LYM");
 		if(selectedDirectory== null) {
-			return null;
+			return ;
 		}
 		
 		ArrayList<File> files = filterImageList(selectedDirectory.listFiles());
-		List<Slide> wsis = createWsisFromTiles(files);
+		
+		ObservableList<Slide> slides = FXCollections.observableArrayList(createWsisFromTiles(files));
+		
+		
 		SlideList slideList = new SlideList();
-		slideList.setSlides(wsis);
-		return slideList;
+		slideList.setSlides(slides);
+		
+		sLideContainer.getSlideLists().put("new",slideList);			
 	}
 	
 	private static ArrayList<File> filterImageList(File[] files) {
@@ -37,14 +46,13 @@ public class Loader {
 		return filtered;
 	}
 	
-	private Slide createWsiFromTiles(String name, List<Tile> tiles) {
-		
-		Slide wsi = new Slide();	
-		return wsi;	
-	}
+
 	
 	private static List<Slide> createWsisFromTiles(List<File> files) {
+		
+		
 		HashMap<String,List<Tile>> wsis = sortByWsi(files);
+			
 		ArrayList<Slide> results = new ArrayList<Slide>();
 		
 		for(String wsiName: wsis.keySet()) {
@@ -58,13 +66,16 @@ public class Loader {
 		HashMap<String,List<Tile>> map = new HashMap<String,List<Tile>>();
 		for(File f: files) {
 			String nNumber = getName(f.getName());
+			System.out.println(f.getAbsolutePath());
 			
-			Tile tile = new Tile(getName(f.getName()), getCoords(f.getName()), 384);
+			Tile tile = new Tile(getName(f.getName()), f.getAbsolutePath(), getCoords(f.getName()), 384);
 			if(map.keySet().contains(nNumber)) {
+				System.out.println("adding " + nNumber +" and "+tile.getPath());
 				map.get(nNumber).add(tile);
 			}else {
 				ArrayList<Tile> images = new ArrayList<Tile>();
 				images.add(tile);
+				System.out.println("creating " + nNumber+" and "+tile.getPath());
 				map.put(nNumber, images);
 			}
 				
@@ -84,10 +95,13 @@ public class Loader {
 	}
 	
 	private static int[] getCoords(String file) {
+		
 		int[] pos = new int[2];
-		String[] split = file.split(".")[0].split("-");
-		pos[0] = Integer.parseInt(split[0]);
-		pos[1] = Integer.parseInt(split[1]);
+		
+		String[] split = file.split("\\.")[0].split("_");
+		
+		pos[0] = Integer.parseInt(split[1]);
+		pos[1] = Integer.parseInt(split[2]);
 		return pos;
 		
 	}

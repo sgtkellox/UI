@@ -1,32 +1,22 @@
 package data;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class TileClassification {
 	
-	private String label;
-	private List<String> labels;
+	private String best;
+	private HashMap<String,Double> propabilities;
 	private Tile tile;
 	private int xShift;
 	private int yShift;
+	private double confidenz;
 	
-	public TileClassification() {
-		
+	public TileClassification(Tile tile,List<String> labels) {
+		propabilities = new HashMap<String, Double>();
+		this.tile = tile;
 	}
 	
-	
-	public String getLabel() {
-		return label;
-	}
-	public void setLabel(String label) {
-		this.label = label;
-	}
-	public List<String> getLabels() {
-		return labels;
-	}
-	public void setLabels(List<String> labels) {
-		this.labels = labels;
-	}
 	public Tile getTile() {
 		return tile;
 	}
@@ -42,6 +32,40 @@ public class TileClassification {
 		scaledPos[0] = x;
 		scaledPos[1] = y;
 		return scaledPos;
+	}
+
+
+	public double getConfidenz() {
+		return confidenz;
+	}
+
+
+	public void setConfidenz(double confidenz) {
+		this.confidenz = confidenz;
+	}
+
+
+
+	public HashMap<String,Double> getPropabilities() {
+		return propabilities;
+	}
+
+
+
+	public void setPropabilities(HashMap<String,Double> propabilities) {
+		this.propabilities = propabilities;
+	}
+
+
+
+	public String getBest() {
+		return best;
+	}
+
+
+
+	public void setBest(String best) {
+		this.best = best;
 	}
 	 
 	

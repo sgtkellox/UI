@@ -73,14 +73,7 @@ public class YoloSetUpTab extends VBox {
 			imageContainer.preFillCIRDetections(files);
 
 			lblCIRPath.setText(selectedDirectory.getAbsolutePath());
-			if (!ImageContainer.getCirImages().isEmpty()) {
-				try {
-					display.showCIRImage(new Image(new FileInputStream(ImageContainer.getCirImages().get(0))));
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
+			
 
 		});
 

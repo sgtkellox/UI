@@ -2,8 +2,6 @@ package gui;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 import com.jfoenix.controls.JFXDrawer;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -13,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class RootPane extends BorderPane {
+	
 
 	private HBox topStripe;
 	
@@ -28,15 +27,9 @@ public class RootPane extends BorderPane {
 
 	public RootPane() {
 		this.getStylesheets().add(String.valueOf(this.getClass().getResource("css/RootPane.css")));
-		
 		ImageGridPane display = new ImageGridPane();
-
-		MenuBar menuBar = new MenuBar();
-		Menu menuFile = new Menu("File");
-		Menu menuSettings = new Menu("Einstellungen");
-		Menu menuHelp = new Menu("Hilfe");
-
-		menuBar.getMenus().addAll(menuFile, menuSettings, menuHelp);
+		
+		CustomManuBar menuBar = new CustomManuBar();
 
 		topStripe = new HBox();
 		
@@ -103,10 +96,11 @@ public class RootPane extends BorderPane {
 	public void setSizeChangeListener(Stage stage) {
 
 		stage.heightProperty().addListener((obs, oldVal, newVal) -> {
-			double desiredHight = ((double) newVal) * 0.05;
+			double desiredHight = ((double) newVal) * 0.03;
 			topStripe.setPrefHeight(desiredHight);
 			
 			logo.setFitHeight(desiredHight);
+			
 					
 			closeIcon.setStyle("-fx-icon-size:" + Double.toString(desiredHight) + ";");
 			openIcon.setStyle("-fx-icon-size:" + Double.toString(desiredHight) + ";");

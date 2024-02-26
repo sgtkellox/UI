@@ -13,8 +13,8 @@ import yolointerface.GroundTruth;
 
 
 public class ImageGridPane extends SplitPane {
-	ImageBox cirPane = new ImageBox();
 	ImageBox rgbPane = new ImageBox();
+	StatsView statsView = new StatsView();
 
 	VegetationIndexPane vegPane = new VegetationIndexPane();
 	TableViewPane table = new TableViewPane(this);
@@ -31,7 +31,7 @@ public class ImageGridPane extends SplitPane {
 		SplitPane bot = new SplitPane();
 		
 	
-		top.getItems().addAll(rgbPane,cirPane);
+		top.getItems().addAll(rgbPane,statsView);
 		bot.getItems().addAll(vegPane,table);
 		
 		this.getItems().addAll(top,bot);	
@@ -42,9 +42,7 @@ public class ImageGridPane extends SplitPane {
 		rgbPane.showImage(image);
 	}
 	
-	public void showCIRImage(Image image) {
-		cirPane.showImage(image);
-	}
+	
 	
 	public void showNDVIImage(File image) {
 		vegPane.calcAndShowVegetationIndeizes(image);
@@ -59,19 +57,13 @@ public class ImageGridPane extends SplitPane {
 		rgbPane.drawGroundTruth(gds);	
 	}
 	
-	public void drawCIRGroundTruth(ArrayList<GroundTruth> gds) {
-		cirPane.drawGroundTruth(gds);	
-	}
 	
-	public void drawCIRBoundingBoxes(ObservableList<Detection> s) {
-		cirPane.drawBoundingBoxes(s);
-		table.addData(s);
 		
-	}
+	
 	
 	public void changeOpacitys(double opacity) {
 		rgbPane.setBbOpacity(opacity);
-		cirPane.setBbOpacity(opacity);
+		
 	}
 	
 	

@@ -5,7 +5,8 @@ import java.io.FileInputStream;
 
 import java.io.IOException;
 
-
+import data.Slide;
+import data.SlideContainer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.WorkerStateEvent;
@@ -23,21 +24,18 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import modelCollection.EffNet;
 import modelCollection.YoloPytorchCIR;
 import modelCollection.YoloPytorchRGB;
 import vegetationIndices.Calculator;
 
 import yolointerface.Detection;
 import yolointerface.DetectionExecuter;
-import yolointerface.ImageContainer;
+
 
 public class WorkTab extends VBox {
 
-	String groundTruthFolder = "C:\\Users\\felix\\Desktop\\FinalTraining\\testLabels";
-
-	ImageContainer imageContainer = ImageContainer.instance();
-
-	Calculator ndviCalculator = new Calculator();
+	SlideContainer container = SlideContainer.instance();
 	DetectionExecuter detector = DetectionExecuter.instance();
 	ImageGridPane display;
 
@@ -65,26 +63,18 @@ public class WorkTab extends VBox {
 		popup.getContent().add(progressBarContent);
 
 		HBox backAndForBox = new HBox();
+		
+		
 
 		Button btnPreviousImage = new Button("<<");
 		btnPreviousImage.setOnAction(e -> {
 
-			if (ImageContainer.getCurrentSelectedIndex() > 0) {
-				display.rgbPane.clearBundingBoxes();
-				display.cirPane.clearBundingBoxes();
-				ImageContainer.setCurrentSelectedIndex(ImageContainer.getCurrentSelectedIndex() - 1);
+			if (SlideContainer.getCurrentSelectedIndex() > 0) {
+				
+				SlideContainer.setCurrentSelectedIndex(SlideContainer.getCurrentSelectedIndex() - 1);
 
-				File currentRGBFile = ImageContainer.getRgbImages().get(ImageContainer.getCurrentSelectedIndex());
-				File matchingCirFile = displaySelectedFile(currentRGBFile);
-				if (ImageContainer.getRGBDetections().get(currentRGBFile) != null) {
-					display.drawRGBBoundingBoxes(ImageContainer.getRGBDetections().get(currentRGBFile));
-
-				}
-
-				if (matchingCirFile != null && ImageContainer.getCIRDetections().get(matchingCirFile) != null) {
-					display.drawCIRBoundingBoxes(ImageContainer.getCIRDetections().get(matchingCirFile));
-
-				}
+				
+				
 
 			}
 
@@ -92,28 +82,22 @@ public class WorkTab extends VBox {
 		Button btnNextImage = new Button(">>");
 		btnNextImage.setOnAction(e -> {
 
-			if (ImageContainer.getCurrentSelectedIndex() < ImageContainer.getRgbImages().size()) {
-				display.rgbPane.clearBundingBoxes();
-				display.cirPane.clearBundingBoxes();
-				ImageContainer.setCurrentSelectedIndex(ImageContainer.getCurrentSelectedIndex() + 1);
-				File currentRGBFile = ImageContainer.getRgbImages().get(ImageContainer.getCurrentSelectedIndex());
-				File matchingCirFile = displaySelectedFile(currentRGBFile);
-				if (ImageContainer.getRGBDetections().get(currentRGBFile) != null) {
-					display.drawRGBBoundingBoxes(ImageContainer.getRGBDetections().get(currentRGBFile));
-					// display.drawRGBGroundTruth(ImageContainer.getGroundtruth().get(currentRGBFile.getName()));
-				}
-
-				if (matchingCirFile != null && ImageContainer.getCIRDetections().get(matchingCirFile) != null) {
-					display.drawCIRBoundingBoxes(ImageContainer.getCIRDetections().get(matchingCirFile));
-					// display.drawCIRGroundTruth(ImageContainer.getGroundtruth().get(currentRGBFile.getName()));
-				}
+			if (SlideContainer.getCurrentSelectedIndex() < container.getSlideLists().size()) {
+				
+				SlideContainer.setCurrentSelectedIndex(SlideContainer.getCurrentSelectedIndex() + 1);
+				
 
 			}
 
 		});
+		
+		
 
-		ListView<File> fileList = new ListView<File>();
-		fileList.setItems(ImageContainer.getRgbImages());
+		ListView<Slide> fileList = new ListView<Slide>();
+		if(!container.getSlideLists().isEmpty()) {
+			fileList.setItems(container.getSlideLists().get("new").getSlides());
+		}
+		
 		fileList.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
@@ -121,20 +105,10 @@ public class WorkTab extends VBox {
 
 				if (click.getClickCount() == 2) {
 
-					display.rgbPane.clearBundingBoxes();
-					display.cirPane.clearBundingBoxes();
-
-					File currentItemSelected = fileList.getSelectionModel().getSelectedItem();
-					File matchingCirFile = displaySelectedFile(currentItemSelected);
-
-					if (ImageContainer.getRGBDetections().get(currentItemSelected) != null) {
-						display.drawRGBBoundingBoxes(ImageContainer.getRGBDetections().get(currentItemSelected));
-					}
-
-					if (matchingCirFile != null && ImageContainer.getCIRDetections().get(matchingCirFile) != null) {
-						display.drawCIRBoundingBoxes(ImageContainer.getCIRDetections().get(matchingCirFile));
-					}
-
+					
+					Slide currentItemSelected = fileList.getSelectionModel().getSelectedItem();
+					
+					
 				}
 			}
 		});
@@ -160,8 +134,13 @@ public class WorkTab extends VBox {
 
 		Button btnMakeClassification = new Button("Classify");
 		btnMakeClassification.setOnAction(e -> {
+			
 			progressBar.progressProperty().unbind();
 			progressBar.setProgress(0);
+			EffNet effNet = new EffNet();
+			System.out.println("name " + container.getSlideLists().get("new").getSlides().get(0).getName());
+			System.out.println(container.getSlideLists().get("new").getSlides().get(0).getTiles().get(0).getPath());
+			effNet.setSlide(container.getSlideLists().get("new").getSlides().get(0));
 
 			Window owner = Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
 			double[] pos = progressBarPosition();
@@ -170,34 +149,27 @@ public class WorkTab extends VBox {
 			progressBar.setPrefWidth(pos[2]);
 			popup.show(owner, pos[0], pos[1]);
 			
-			YoloPytorchRGB yoloPT = new YoloPytorchRGB();
-
 			
 
+		
 			// Bind progress property
-			progressBar.progressProperty().bind(yoloPT.progressProperty());
+			progressBar.progressProperty().bind(effNet.progressProperty());
 			
 			
 
-			yoloPT.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, //
+			effNet.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, //
 					new EventHandler<WorkerStateEvent>() {
 
 						@Override
 						public void handle(WorkerStateEvent t) {
-							File rgbFile = ImageContainer.getRgbImages().get(ImageContainer.getCurrentSelectedIndex());
-							display.drawRGBBoundingBoxes(ImageContainer.getRGBDetections().get(rgbFile));
-
-							File matchingCirFile = getMatchingCirFile(rgbFile);
-							if (matchingCirFile != null
-									&& ImageContainer.getCIRDetections().get(matchingCirFile) != null) {
-								display.drawCIRBoundingBoxes(ImageContainer.getCIRDetections().get(matchingCirFile));
-							}
+							
+							
 							popup.hide();
 						}
 					});
 
 			// Start the Task.
-			new Thread(yoloPT).start();
+			new Thread(effNet).start();
 
 		});
 
@@ -232,39 +204,10 @@ public class WorkTab extends VBox {
 	}
 
 	private File displaySelectedFile(File file) {
-		try {
-			display.showRGBImage(new Image(new FileInputStream(file)));
-			ImageContainer.setCurrentSelectedIndex(ImageContainer.getRgbImages().indexOf(file));
-			for (File cirFile : ImageContainer.getCirImages()) {
-				if (cirFile.getName().equals(file.getName())) {
-
-					FileInputStream fileInput = new FileInputStream(cirFile);
-
-					display.showCIRImage(new Image(fileInput));
-					ImageContainer.setCurrentSelectedCirIndex(ImageContainer.getCirImages().indexOf(cirFile));
-					fileInput.close();
-					return cirFile;
-				}
-			}
-			Image notFoundPlaceholder = new Image("image-not-found.png");
-			display.showCIRImage(notFoundPlaceholder);
-			return null;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return null;
 
 	}
 
-	private void displayNDVIImage(File image) {
-		display.showNDVIImage(image);
-	}
-
-	
-
-	
-
-	
 
 	private double[] progressBarPosition() {
 		double[] pos = new double[4];
@@ -290,16 +233,6 @@ public class WorkTab extends VBox {
 
 	}
 
-	private File getMatchingCirFile(File rgbFile) {
-		for (File cirFile : ImageContainer.getCirImages()) {
-			if (cirFile.getName().equals(rgbFile.getName())) {
-
-				ImageContainer.setCurrentSelectedCirIndex(ImageContainer.getCirImages().indexOf(cirFile));
-
-				return cirFile;
-			}
-		}
-		return null;
-	}
+	
 
 }

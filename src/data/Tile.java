@@ -15,7 +15,8 @@ public class Tile {
 		this.y = y;
 		this.size  = size;
 	}
-	public Tile(String WSIName, int[] pos ,int size){
+	public Tile(String WSIName, String path, int[] pos ,int size){
+		this.path = path;
 		this.WSIName = WSIName;
 		this.x = pos[0];
 		this.y = pos[1];
