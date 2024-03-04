@@ -16,6 +16,10 @@ public class SlideList {
 	public SlideList() {
 		
 	}
+	
+	public SlideList(List<Slide> data) {
+		this.slides.addAll(data);
+	}
 
 
 

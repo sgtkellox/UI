@@ -16,7 +16,12 @@ public class TileClassification {
 		propabilities = new HashMap<String, Double>();
 		this.tile = tile;
 	}
-	
+	public TileClassification(String json) {
+		String[] list = json.split("\\[");
+		
+		
+		
+	}
 	public Tile getTile() {
 		return tile;
 	}

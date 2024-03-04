@@ -73,7 +73,7 @@ public class SlideClassification {
 		}
 			
 		for(TileClassification tileClassification : tileClassifications) {
-			String label = tileClassification.getLabel();
+			String label = tileClassification.getBest();
 			Double d = this.wheightedSumConfidenzes.get(label)+tileClassification.getConfidenz();
 			wheightedSumConfidenzes.put(label, d);
 		}

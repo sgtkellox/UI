@@ -1,12 +1,21 @@
 package data;
 
-import java.util.HashMap;
+
+import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 
 public class SlideContainer {
 	
 	private static SlideContainer sLideContainer = null;
 	
-	private static HashMap<String, SlideList> slideLists = new HashMap<>();
+	
+	
+	private static final ObservableList<Slide> slides = FXCollections.observableArrayList();
+	
+	
 	
 	
 	private static int currentSelectedIndex = 0;
@@ -14,6 +23,7 @@ public class SlideContainer {
 	
 	
 	private SlideContainer() {
+		
 		
 	}
 	
@@ -35,9 +45,19 @@ public class SlideContainer {
 		SlideContainer.currentSelectedIndex = currentSelectedIndex;
 	}
 
-	public HashMap<String, SlideList> getSlideLists() {
-		return slideLists;
+	public static ObservableList<Slide> getSlides() {
+		return slides;
 	}
+
+	
+	
+	public static void addSlides(List<Slide> slides) {
+		slides.addAll(slides);
+	}
+
+	
+	
+	
 
 	
 

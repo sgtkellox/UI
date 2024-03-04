@@ -139,9 +139,7 @@ public class EffNet extends Task<Object> {
 		this.slide = slide;
 	}
 	
-	private Tile createTileClassification(String json) {
-		return null;
-	}
+	
 
 
 }

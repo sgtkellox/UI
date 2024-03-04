@@ -82,7 +82,7 @@ public class WorkTab extends VBox {
 		Button btnNextImage = new Button(">>");
 		btnNextImage.setOnAction(e -> {
 
-			if (SlideContainer.getCurrentSelectedIndex() < container.getSlideLists().size()) {
+			if (SlideContainer.getCurrentSelectedIndex() < SlideContainer.getSlides().size()) {
 				
 				SlideContainer.setCurrentSelectedIndex(SlideContainer.getCurrentSelectedIndex() + 1);
 				
@@ -94,9 +94,10 @@ public class WorkTab extends VBox {
 		
 
 		ListView<Slide> fileList = new ListView<Slide>();
-		if(!container.getSlideLists().isEmpty()) {
-			fileList.setItems(container.getSlideLists().get("new").getSlides());
-		}
+		fileList.setItems(SlideContainer.getSlides());
+		System.out.println(SlideContainer.getSlides().toString());
+		
+		
 		
 		fileList.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -138,9 +139,8 @@ public class WorkTab extends VBox {
 			progressBar.progressProperty().unbind();
 			progressBar.setProgress(0);
 			EffNet effNet = new EffNet();
-			System.out.println("name " + container.getSlideLists().get("new").getSlides().get(0).getName());
-			System.out.println(container.getSlideLists().get("new").getSlides().get(0).getTiles().get(0).getPath());
-			effNet.setSlide(container.getSlideLists().get("new").getSlides().get(0));
+			
+			effNet.setSlide(SlideContainer.getSlides().get(0));
 
 			Window owner = Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
 			double[] pos = progressBarPosition();

@@ -5,14 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
+import yolointerface.ImageContainer;
 
-public class Loader {
+public class Loader  {
 	
-	static SlideContainer sLideContainer = SlideContainer.instance();
+	
+	
+	ImageContainer imageContainer = ImageContainer.instance();
 	
 	public static void loadWSIsFromTiles(){
 		
@@ -27,13 +26,16 @@ public class Loader {
 		
 		ArrayList<File> files = filterImageList(selectedDirectory.listFiles());
 		
-		ObservableList<Slide> slides = FXCollections.observableArrayList(createWsisFromTiles(files));
 		
+		//System.out.println(slides);
 		
-		SlideList slideList = new SlideList();
-		slideList.setSlides(slides);
+		List<Slide> slideList = createWsisFromTiles(files);
+		//slideList.setSlides(slides);
+		System.out.println(slideList);
 		
-		sLideContainer.getSlideLists().put("new",slideList);			
+		SlideContainer.getSlides().addAll(slideList);
+		System.out.println(SlideContainer.getSlides());
+		
 	}
 	
 	private static ArrayList<File> filterImageList(File[] files) {
@@ -66,16 +68,16 @@ public class Loader {
 		HashMap<String,List<Tile>> map = new HashMap<String,List<Tile>>();
 		for(File f: files) {
 			String nNumber = getName(f.getName());
-			System.out.println(f.getAbsolutePath());
+			//System.out.println(f.getAbsolutePath());
 			
 			Tile tile = new Tile(getName(f.getName()), f.getAbsolutePath(), getCoords(f.getName()), 384);
 			if(map.keySet().contains(nNumber)) {
-				System.out.println("adding " + nNumber +" and "+tile.getPath());
+				//System.out.println("adding " + nNumber +" and "+tile.getPath());
 				map.get(nNumber).add(tile);
 			}else {
 				ArrayList<Tile> images = new ArrayList<Tile>();
 				images.add(tile);
-				System.out.println("creating " + nNumber+" and "+tile.getPath());
+				//System.out.println("creating " + nNumber+" and "+tile.getPath());
 				map.put(nNumber, images);
 			}
 				
