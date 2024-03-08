@@ -49,11 +49,11 @@ public class WorkTab extends VBox {
 		VBox progressBarContent = new VBox();
 		progressBarContent.getStylesheets().add(String.valueOf(this.getClass().getResource("css/WorkTab.css")));
 		progressBarContent.setId("popup");
-		Label lblDetectionInProgress = new Label("Detection läuft");
+		Label lblDetectionInProgress = new Label("processing tiles");
 		
 		
 		ProgressBar progressBar = new ProgressBar(0);
-		progressBar.setStyle("-fx-accent: green;");
+		progressBar.setStyle("-fx-accent: blue;");
 		Popup popup = new Popup();
 		
 		
@@ -162,15 +162,15 @@ public class WorkTab extends VBox {
 
 						@Override
 						public void handle(WorkerStateEvent t) {
-							
-							
+														
 							popup.hide();
+							display.statsView.showWeightedVote(SlideContainer.getSlides().get(0).getClassifications().get(0));
 						}
 					});
 
 			// Start the Task.
 			new Thread(effNet).start();
-
+			
 		});
 
 		

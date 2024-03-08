@@ -26,7 +26,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 
-			primaryStage.setTitle("Festmeter Schadbaumerkennung");
+			primaryStage.setTitle("Intraoperativ Classifier");
 //			SessionSelector root = new SessionSelector();
 			RootPane root = new RootPane();
 			primaryStage.setMaximized(true);

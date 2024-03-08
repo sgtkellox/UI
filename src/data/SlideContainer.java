@@ -10,18 +10,8 @@ import javafx.collections.ObservableList;
 public class SlideContainer {
 	
 	private static SlideContainer sLideContainer = null;
-	
-	
-	
-	private static final ObservableList<Slide> slides = FXCollections.observableArrayList();
-	
-	
-	
-	
+	private static final ObservableList<Slide> slides = FXCollections.observableArrayList();	
 	private static int currentSelectedIndex = 0;
-	
-	
-	
 	private SlideContainer() {
 		
 		
@@ -53,6 +43,14 @@ public class SlideContainer {
 	
 	public static void addSlides(List<Slide> slides) {
 		slides.addAll(slides);
+	}
+	
+	public static void addClassification(SlideClassification classification) {
+		for(Slide slide: slides) {
+			if (slide.equals(classification.getSlide())){
+				slide.getClassifications().add(classification);
+			}
+		}
 	}
 
 	

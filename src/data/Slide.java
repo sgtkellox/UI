@@ -1,5 +1,6 @@
 package data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Slide {
@@ -9,11 +10,11 @@ public class Slide {
 	private int emptyBorderX;
 	private int emptyBorderY;
 	private List<Tile> tiles;
+	private List<SlideClassification> classifications;
 	
 	public Slide() {
 		
 	}
-	
 	public Slide(String name ,List<Tile> tiles) {
 		this.tiles = tiles;
 		this.name = name;
@@ -22,9 +23,17 @@ public class Slide {
 		this.wsiWith = shiftValues[1]-shiftValues[0];
 		this.wsiHeight = shiftValues[3]-shiftValues[2];
 		
+		this.classifications = new ArrayList<SlideClassification>();
 		
 	}
 	
+	public List<SlideClassification> getClassifications() {
+		return classifications;
+	}
+
+	public void setClassifications(List<SlideClassification> classifications) {
+		this.classifications = classifications;
+	}
 	
 	public int getWsiHeight() {
 		return wsiHeight;

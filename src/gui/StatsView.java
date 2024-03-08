@@ -29,7 +29,7 @@ public class StatsView extends VBox {
 
 	public void showWeightedVote(SlideClassification slideClassification) {
 		Series<String, Number> series1 = new XYChart.Series<String,Number>();
-		series1.setName("2003");
+		series1.setName(slideClassification.getSlide().getName());
 
 		for (String label : slideClassification.getWheightedSumConfidenzes().keySet()) {
 			series1.getData().add(new Data<String, Number>(label, slideClassification.getWheightedSumConfidenzes().get(label)));

@@ -16,8 +16,9 @@ import ai.djl.repository.zoo.*;
 import ai.djl.translate.*;
 import data.Slide;
 import data.SlideClassification;
-
+import data.SlideContainer;
 import data.Tile;
+import data.TileClassification;
 import ai.djl.training.util.*;
 import javafx.concurrent.Task;
 
@@ -29,7 +30,7 @@ public class EffNet extends Task<Object> {
 
 	
 
-	private String modelPath = "D:\\kryo\\non_glial\\non_glial\\test.pt";
+	private String modelPath = "E:\\models\\kryo\\non_glial\\non_glial\\test.pt";
 
 	
 	
@@ -82,30 +83,36 @@ public class EffNet extends Task<Object> {
 			int index = 0;
 			
 			SlideClassification slidePrediction = new SlideClassification();
+			slidePrediction.setSlide(slide);
+			
+			System.out.println("hello");
 
 			for (Tile tile : slide.getTiles()) {
 				
-				System.out.println(tile.getPath());
+				
 				Image img = ImageFactory.getInstance().fromFile(Paths.get(tile.getPath()));
 				img.getWrappedImage();
 				
 				Classifications classifications = predictor.predict(img);
-				System.out.println(classifications.getAsString());
+				
+				String json = classifications.getAsString();
+				
+				
+				
+				TileClassification tileClassification = new TileClassification(tile, json);
+				
+				System.out.println(tileClassification.getTile().getPath());
+				
+				slidePrediction.getTileClassifications().add(tileClassification);
+				
 				
 				index++;
 				this.updateProgress(index, count);
 				
-			}
-
-			
-			
-			
-			
-				
-			
-			
-			
-			
+								
+			}	
+			SlideContainer.addClassification(slidePrediction);
+			System.out.println("name " + SlideContainer.getSlides().get(0).getName());
 		} catch (ModelNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -137,6 +144,57 @@ public class EffNet extends Task<Object> {
 
 	public void setSlide(Slide slide) {
 		this.slide = slide;
+	}
+	
+	public void process(String json) {
+		String[] split = json.split(":");
+		
+		for (String s: split) {
+			s = s.replaceAll("\\{", "");
+			s = s.replaceAll("\\}", "");
+			s = s.replaceAll("\\[", "");
+			s = s.replaceAll("\\]", "");
+			
+			s = s.replaceAll("\n", "");
+			s = s.strip();
+			String[] split2 = s.split(",");
+			
+			System.out.println(split2[0]);
+			//System.out.println(split2[3]);
+			
+		}
+	}
+	
+	public void process2(String s) {
+		
+		
+		
+			s = s.replaceAll("\\{", "");
+			s = s.replaceAll("\\}", "");
+			s = s.replaceAll("\\[", "");
+			s = s.replaceAll("\\]", "");
+			
+			s = s.replaceAll("\n", "");
+			s = s.strip();
+			//System.out.println(s);
+			String[] split2 = s.split(",");
+			
+			
+			
+			for(int i = 0; i<split2.length; i++) {
+				String s2 = split2[i];
+				s2 = s2.trim();
+				s2 = s2.replaceAll("\"", "");
+				s2 = s2.split(":")[1].trim();
+				if(i%2 == 0) {
+					System.out.println("name " + s2);
+				}else {
+					System.out.println("prop " + s2);
+				}	
+			}
+			//System.out.println(split2[3]);
+			
+		
 	}
 	
 	

@@ -2,25 +2,26 @@ package data;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 public class TileClassification {
 	
 	private String best;
+	private double maxConf;
 	private HashMap<String,Double> propabilities;
 	private Tile tile;
 	private int xShift;
 	private int yShift;
-	private double confidenz;
+	
 	
 	public TileClassification(Tile tile,List<String> labels) {
 		propabilities = new HashMap<String, Double>();
 		this.tile = tile;
 	}
-	public TileClassification(String json) {
-		String[] list = json.split("\\[");
-		
-		
-		
+	public TileClassification(Tile tile,String json) {
+		this.tile = tile;
+		extractJsonInformation(json);
+		calcBest();		
 	}
 	public Tile getTile() {
 		return tile;
@@ -39,18 +40,6 @@ public class TileClassification {
 		return scaledPos;
 	}
 
-
-	public double getConfidenz() {
-		return confidenz;
-	}
-
-
-	public void setConfidenz(double confidenz) {
-		this.confidenz = confidenz;
-	}
-
-
-
 	public HashMap<String,Double> getPropabilities() {
 		return propabilities;
 	}
@@ -67,11 +56,58 @@ public class TileClassification {
 		return best;
 	}
 
-
-
 	public void setBest(String best) {
 		this.best = best;
 	}
+	
+	public double getMaxConf() {
+		return maxConf;
+	}
+	public void setMaxConf(double maxConf) {
+		this.maxConf = maxConf;
+	}
+	
+	private void calcBest() {
+		double max = 0;
+		for(Entry<String, Double> e :propabilities.entrySet()) {
+			if(e.getValue() > max) {
+				max = e.getValue();
+				this.best = e.getKey();
+			}
+		}
+		this.maxConf = max;
+	}
+	
+	private void extractJsonInformation(String s) {
+		s = s.replaceAll("\\{", "");
+		s = s.replaceAll("\\}", "");
+		s = s.replaceAll("\\[", "");
+		s = s.replaceAll("\\]", "");
+		
+		s = s.replaceAll("\n", "");
+		s = s.strip();
+		//System.out.println(s);
+		String[] split2 = s.split(",");
+		
+		String label = "";
+		double prop = 0;
+		
+		for(int i = 0; i<split2.length; i++) {
+			String s2 = split2[i];
+			s2 = s2.trim();
+			s2 = s2.replaceAll("\"", "");
+			s2 = s2.split(":")[1].trim();
+			
+			if(i%2 == 0) {
+				label = s2;
+				
+			}else {
+				 prop = Double.valueOf(s2);
+				 this.propabilities.put(label, prop);
+			}	
+		}
+	}
+	
 	 
 	
 	
