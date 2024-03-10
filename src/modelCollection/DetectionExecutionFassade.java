@@ -26,7 +26,7 @@ public class DetectionExecutionFassade {
 	
 	public void runDetection(String modelName, double confidenzNiveau, ImageType imageType ) throws ModelNotFoundException, MalformedModelException, TranslateException, IOException {
 		switch(modelName){ 
-			case "yolov5":
+			case "effNetv2":
 				YoloPytorchRGB yoloPytorch = new YoloPytorchRGB();
 		}
 	}

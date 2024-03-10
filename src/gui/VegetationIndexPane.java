@@ -12,8 +12,8 @@ import yolointerface.ImageContainer;
 public class VegetationIndexPane extends TabPane {
 	
 	ImageContainer imageContainer = ImageContainer.instance(); 
-	VegetationIndexView ndviView = new VegetationIndexView();
-	VegetationIndexView gNDVIView = new VegetationIndexView();
+	MapView ndviView = new MapView();
+	MapView gNDVIView = new MapView();
 	
 	public VegetationIndexPane() {
 		
@@ -29,7 +29,7 @@ public class VegetationIndexPane extends TabPane {
 		this.getTabs().clear();
 		
 		for(VegetationIndexInterface index: selectedIndizes) {
-			VegetationIndexView vegView = new VegetationIndexView();
+			MapView vegView = new MapView();
 			vegView.setText(index.toString());
 			this.getTabs().add(vegView);
 		}
@@ -37,7 +37,7 @@ public class VegetationIndexPane extends TabPane {
 	
 	public void showIndizesOnTabs(WritableImage[] indexImages) {
 		for(int i = 0; i<indexImages.length;i++) {
-			((VegetationIndexView)(this.getTabs().get(i))).showImage(indexImages[i]);;
+			((MapView)(this.getTabs().get(i))).showImage(indexImages[i]);;
 			
 		}
 	}

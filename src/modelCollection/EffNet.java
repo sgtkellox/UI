@@ -30,7 +30,7 @@ public class EffNet extends Task<Object> {
 
 	
 
-	private String modelPath = "E:\\models\\kryo\\non_glial\\non_glial\\test.pt";
+	private String modelPath = "D:\\models\\kryo\\non_glial\\non_glial\\test.pt";
 
 	
 	
@@ -82,10 +82,11 @@ public class EffNet extends Task<Object> {
 
 			int index = 0;
 			
-			SlideClassification slidePrediction = new SlideClassification();
+			SlideClassification slidePrediction = new SlideClassification(synset);
 			slidePrediction.setSlide(slide);
 			
-			System.out.println("hello");
+			
+			
 
 			for (Tile tile : slide.getTiles()) {
 				
@@ -101,7 +102,7 @@ public class EffNet extends Task<Object> {
 				
 				TileClassification tileClassification = new TileClassification(tile, json);
 				
-				System.out.println(tileClassification.getTile().getPath());
+				
 				
 				slidePrediction.getTileClassifications().add(tileClassification);
 				
@@ -111,6 +112,8 @@ public class EffNet extends Task<Object> {
 				
 								
 			}	
+			slidePrediction.calcWeightedSums();
+			slidePrediction.calcSums();
 			SlideContainer.addClassification(slidePrediction);
 			System.out.println("name " + SlideContainer.getSlides().get(0).getName());
 		} catch (ModelNotFoundException e) {

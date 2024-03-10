@@ -19,7 +19,9 @@ public class TileClassification {
 		this.tile = tile;
 	}
 	public TileClassification(Tile tile,String json) {
+		propabilities = new HashMap<String, Double>();
 		this.tile = tile;
+		//System.out.println(tile.getPath());
 		extractJsonInformation(json);
 		calcBest();		
 	}
@@ -100,9 +102,14 @@ public class TileClassification {
 			
 			if(i%2 == 0) {
 				label = s2;
+				//System.out.println("label " + s2);
 				
 			}else {
+				 
 				 prop = Double.valueOf(s2);
+				 
+				 //System.out.println("prop "+Double.toString(prop));
+				 
 				 this.propabilities.put(label, prop);
 			}	
 		}

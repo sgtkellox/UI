@@ -165,6 +165,7 @@ public class WorkTab extends VBox {
 														
 							popup.hide();
 							display.statsView.showWeightedVote(SlideContainer.getSlides().get(0).getClassifications().get(0));
+							//System.out.println(SlideContainer.getSlides().get(0).getClassifications().get(0).getSlideClassification());
 						}
 					});
 

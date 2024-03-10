@@ -19,12 +19,12 @@ public class TableViewPane extends VBox {
 	public TableViewPane(ImageGridPane parent) {
 		
 
-		TableColumn<Detection,Integer> confidenzCol = new TableColumn<Detection,Integer>("Confidenz");
-		TableColumn<Detection,Double> ndviCol = new TableColumn<Detection,Double>("NDVI");
-		TableColumn<Detection,Double> gndviCol = new TableColumn<Detection,Double>("gNDVI");
+		TableColumn<Detection,Integer> confidenzCol = new TableColumn<Detection,Integer>("Model Name");
+		TableColumn<Detection,Double> ndviCol = new TableColumn<Detection,Double>("Resolution");
+		TableColumn<Detection,Double> gndviCol = new TableColumn<Detection,Double>("Input Size");
 		TableColumn<Detection,ImageType> typeCol = new TableColumn<Detection,ImageType>("Type");
-		TableColumn<Detection,Double> gpsLatCol = new TableColumn<Detection,Double>("GPS Latitude");
-		TableColumn<Detection,Double> gpsLongCol = new TableColumn<Detection,Double>("GPS Longitude");
+		TableColumn<Detection,Double> gpsLatCol = new TableColumn<Detection,Double>("Top1");
+		TableColumn<Detection,Double> gpsLongCol = new TableColumn<Detection,Double>("Top2");
 		confidenzCol.setCellValueFactory(new PropertyValueFactory<Detection,Integer>("confidenz"));
 		typeCol.setCellValueFactory(new PropertyValueFactory<Detection,ImageType>("type"));
 		ndviCol.setCellValueFactory(new PropertyValueFactory<Detection,Double>("meanNDVI"));

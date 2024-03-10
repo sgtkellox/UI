@@ -1,5 +1,5 @@
 #parent{
-	  -fx-background-color : rgb(23,147,207); 
+	  -fx-background-color : rgb(192, 192, 192); 
 	  -fx-padding: 5 5 5 5;
 	  -fx-spacing: 8;
 }
@@ -16,7 +16,7 @@
 
 #popup{
 	
-	 -fx-border-color:  rgb(23,147,207) ;
+	 -fx-border-color:  rgb(0, 0, 255) ;
 	 -fx-background-color :grey;
      -fx-border-width: 5 ; 
 	 -fx-padding: 5 5 5 5;

@@ -5,13 +5,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
-public class VegetationIndexView extends Tab {
+public class MapView extends Tab {
 	
 	private ImageView imageView = new ImageView();
 
 	private Image image;
 	
-	public VegetationIndexView() {
+	public MapView() {
 		StackPane box = new StackPane();
 		imageView.setPreserveRatio(true);
 		imageView.fitHeightProperty().bind(box.heightProperty());

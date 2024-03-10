@@ -12,13 +12,20 @@ public class SlideClassification {
 	private Slide slide;
 	private List<TileClassification> tileClassifications;
 	private List<String> possibleClassifications;
-	private HashMap<String, Double> sumConfidenzes; 
+	private HashMap<String, Integer> sumConfidenzes; 
 	private HashMap<String, Double> wheightedSumConfidenzes;
 	
 	public SlideClassification() {
+		possibleClassifications = new ArrayList<String>();
 		tileClassifications = new ArrayList<TileClassification>();
 		wheightedSumConfidenzes = new HashMap<String, Double>();
-		sumConfidenzes = new HashMap<String, Double>();
+		sumConfidenzes = new HashMap<String, Integer>();
+	}
+	public SlideClassification(List<String> possibleClassifications) {
+		this.possibleClassifications = possibleClassifications;
+		tileClassifications = new ArrayList<TileClassification>();
+		wheightedSumConfidenzes = new HashMap<String, Double>();
+		sumConfidenzes = new HashMap<String, Integer>();
 	}
 
 	public int getTileSize() {
@@ -62,7 +69,7 @@ public class SlideClassification {
 		this.slide = slide;
 	}
 	
-	public HashMap<String, Double> getSumConfidenzes() {
+	public HashMap<String, Integer> getSumConfidenzes() {
 		return sumConfidenzes;
 	}
 
@@ -71,17 +78,28 @@ public class SlideClassification {
 	}
 	
 	public void calcWeightedSums() {
+		//System.out.println("size" + tileClassifications.size());
 		for(String label: this.possibleClassifications) {
 			wheightedSumConfidenzes.put(label, 0.0);
 			
 		}
 		for(TileClassification tileClassification: tileClassifications) {
-			for(Entry<String, Double> e :tileClassification.getPropabilities().entrySet() ) {
+			for(Entry<String, Double> e :tileClassification.getPropabilities().entrySet() ) {				
 				wheightedSumConfidenzes.put(e.getKey(), wheightedSumConfidenzes.get(e.getKey()) + e.getValue());  
 			}
-		}
+		}	
+	}
+	
+	public void calcSums() {
+		for(String label: this.possibleClassifications) {
+			sumConfidenzes.put(label, 0);
 			
-		
+		}
+		for(TileClassification tileClassification: tileClassifications) {
+			for(String label :tileClassification.getPropabilities().keySet()) {				
+				sumConfidenzes.put(label, sumConfidenzes.get(label) + 1);  
+			}
+		}	
 	}
 	
 	

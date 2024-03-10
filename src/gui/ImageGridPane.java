@@ -3,6 +3,8 @@ package gui;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import data.SlideClassification;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.control.SplitPane;
@@ -57,7 +59,9 @@ public class ImageGridPane extends SplitPane {
 		rgbPane.drawGroundTruth(gds);	
 	}
 	
-	
+	public void showWeightedVote(SlideClassification classification) {
+		statsView.showWeightedVote(classification);
+	}
 		
 	
 	
