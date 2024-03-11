@@ -4,16 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import modelCollection.ModelDefinition;
+
 public class SlideClassification {
 	
 	private String slideClassification;
-	private int tileSize;
-	private int magnification;
 	private Slide slide;
 	private List<TileClassification> tileClassifications;
 	private List<String> possibleClassifications;
 	private HashMap<String, Integer> sumConfidenzes; 
 	private HashMap<String, Double> wheightedSumConfidenzes;
+	private ModelDefinition usedModel;
 	
 	public SlideClassification() {
 		possibleClassifications = new ArrayList<String>();
@@ -28,19 +29,6 @@ public class SlideClassification {
 		sumConfidenzes = new HashMap<String, Integer>();
 	}
 
-	public int getTileSize() {
-		return tileSize;
-	}
-	public void setTileSize(int tileSize) {
-		this.tileSize = tileSize;
-	}
-	public int getMagnification() {
-		return magnification;
-	}
-	public void setMagnification(int magnification) {
-		this.magnification = magnification;
-	}
-	
 	public List<TileClassification> getTileClassifications() {
 		return tileClassifications;
 	}
@@ -96,9 +84,9 @@ public class SlideClassification {
 			
 		}
 		for(TileClassification tileClassification: tileClassifications) {
-			for(String label :tileClassification.getPropabilities().keySet()) {				
-				sumConfidenzes.put(label, sumConfidenzes.get(label) + 1);  
-			}
+			String label = tileClassification.getBest();
+			System.out.println(label);
+			sumConfidenzes.put(label, sumConfidenzes.get(label) + 1);  
 		}	
 	}
 	
@@ -107,11 +95,14 @@ public class SlideClassification {
 		
 		for(TileClassification tc : tileClassifications) {
 			int[] pos = tc.getScaledPosition();
-			pos[0] = 1;
-			
-			
-			
+			pos[0] = 1;			
 		}	
+	}
+	public ModelDefinition getUsedModel() {
+		return usedModel;
+	}
+	public void setUsedModel(ModelDefinition usedModel) {
+		this.usedModel = usedModel;
 	}
 
 	

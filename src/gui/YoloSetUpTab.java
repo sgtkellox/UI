@@ -1,19 +1,14 @@
 package gui;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import modelCollection.ModelDescription;
+import modelCollection.ModelDefinition;
 import yolointerface.DetectionExecuter;
 import yolointerface.ImageContainer;
 
@@ -29,7 +24,7 @@ public class YoloSetUpTab extends VBox {
 
 		
 
-		ListView<ModelDescription> listView = new ListView<ModelDescription>();
+		ListView<ModelDefinition> listView = new ListView<ModelDefinition>();
 		
 		
 		

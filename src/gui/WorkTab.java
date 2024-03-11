@@ -5,13 +5,17 @@ import java.io.FileInputStream;
 
 import java.io.IOException;
 
+import org.controlsfx.control.CheckComboBox;
+
 import data.Slide;
 import data.SlideContainer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -25,6 +29,8 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import modelCollection.EffNet;
+import modelCollection.ModelContainer;
+import modelCollection.ModelDefinition;
 import modelCollection.YoloPytorchCIR;
 import modelCollection.YoloPytorchRGB;
 import vegetationIndices.Calculator;
@@ -36,6 +42,7 @@ import yolointerface.DetectionExecuter;
 public class WorkTab extends VBox {
 
 	SlideContainer container = SlideContainer.instance();
+	ModelContainer modelContainer = ModelContainer.instance();
 	DetectionExecuter detector = DetectionExecuter.instance();
 	ImageGridPane display;
 
@@ -86,7 +93,6 @@ public class WorkTab extends VBox {
 				
 				SlideContainer.setCurrentSelectedIndex(SlideContainer.getCurrentSelectedIndex() + 1);
 				
-
 			}
 
 		});
@@ -105,17 +111,34 @@ public class WorkTab extends VBox {
 			public void handle(MouseEvent click) {
 
 				if (click.getClickCount() == 2) {
-
 					
 					Slide currentItemSelected = fileList.getSelectionModel().getSelectedItem();
-					
-					
+						
 				}
 			}
 		});
-
-		Label lblConfidenz = new Label("Konfidenz in %");
-
+		
+		//select Model combobox
+		
+		 // Create the CheckComboBox with the data 
+		 final CheckComboBox<ModelDefinition> modelComboBox = new CheckComboBox<ModelDefinition>(ModelContainer.getModels());
+		 
+		 // and listen to the relevant events (e.g. when the selected indices or 
+		 // selected items change).
+		 modelComboBox.getCheckModel().getCheckedItems().addListener(new ListChangeListener<ModelDefinition>() {
+		     public void onChanged(ListChangeListener.Change<? extends ModelDefinition> c) {
+		         System.out.println(modelComboBox.getCheckModel().getCheckedItems());
+		     }
+		 });
+		 modelComboBox.setTitle("Select a Model");
+		 
+		 modelComboBox.setMaxWidth(Double.MAX_VALUE);
+		 
+		 
+		
+		
+		//confidenz niveau slider 
+		Label lblConfidenz = new Label("Confidenz in %");
 		Slider rgbCondfidenz = new Slider();
 		rgbCondfidenz.setMin(0);
 		rgbCondfidenz.setMax(100);
@@ -132,6 +155,9 @@ public class WorkTab extends VBox {
 
 			}
 		});
+		
+		
+		
 
 		Button btnMakeClassification = new Button("Classify");
 		btnMakeClassification.setOnAction(e -> {
@@ -173,34 +199,20 @@ public class WorkTab extends VBox {
 			new Thread(effNet).start();
 			
 		});
+		
+		HBox boxCLassifyButton = new HBox();
+		boxCLassifyButton.setAlignment(Pos.BASELINE_RIGHT);
+		boxCLassifyButton.getChildren().add(btnMakeClassification);
 
 		
 
-		Label lblOpacity = new Label("Boundingbox Transparenz");
-
-		Slider opacitySlider = new Slider();
-		opacitySlider.setMin(0);
-		opacitySlider.setMax(100);
-		opacitySlider.setValue(100);
-		opacitySlider.setShowTickMarks(true);
-		opacitySlider.setShowTickLabels(true);
-		opacitySlider.setMinorTickCount(1);
-		opacitySlider.setMajorTickUnit(10);
-		opacitySlider.setBlockIncrement(5);
-		opacitySlider.setSnapToTicks(true);
-		opacitySlider.valueProperty().addListener(new ChangeListener<Number>() {
-			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				display.changeOpacitys(new_val.doubleValue() / 100);
-
-			}
-		});
+		
 
 			
 
 		backAndForBox.getChildren().addAll(btnPreviousImage, btnNextImage);
 
-		this.getChildren().addAll(backAndForBox, fileList, lblConfidenz, rgbCondfidenz, btnMakeClassification,
-				 lblOpacity, opacitySlider);
+		this.getChildren().addAll(backAndForBox, fileList, lblConfidenz, rgbCondfidenz,modelComboBox, boxCLassifyButton);
 
 	}
 

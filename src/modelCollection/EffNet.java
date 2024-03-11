@@ -30,7 +30,7 @@ public class EffNet extends Task<Object> {
 
 	
 
-	private String modelPath = "D:\\models\\kryo\\non_glial\\non_glial\\test.pt";
+	private String modelPath = "E:\\models\\kryo\\non-glial\\384_10x_pt\\model_60.pt";
 
 	
 	

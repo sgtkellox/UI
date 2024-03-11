@@ -14,12 +14,8 @@ public class ControlPane extends TabPane {
 		 Tab yoloSetUpTab = new Tab();
 		 yoloSetUpTab.setText("Models");
 		 yoloSetUpTab.setContent(new YoloSetUpTab(display));
-		 
-		 Tab ndviTab = new Tab();
-		 ndviTab.setText("Diff");
-		 ndviTab.setContent(new VegetationIndexTab(display));
-		 
-		 this.getTabs().addAll(workTab,yoloSetUpTab,ndviTab);	 
+		 		 
+		 this.getTabs().addAll(workTab,yoloSetUpTab);	 
 	 }
 
 }
