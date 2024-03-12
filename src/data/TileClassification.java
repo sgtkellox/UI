@@ -88,7 +88,6 @@ public class TileClassification {
 		
 		s = s.replaceAll("\n", "");
 		s = s.strip();
-		//System.out.println(s);
 		String[] split2 = s.split(",");
 		
 		String label = "";
@@ -102,18 +101,18 @@ public class TileClassification {
 			
 			if(i%2 == 0) {
 				label = s2;
-				//System.out.println("label " + s2);
 				
 			}else {
 				 
 				 prop = Double.valueOf(s2);
 				 
-				 //System.out.println("prop "+Double.toString(prop));
 				 
 				 this.propabilities.put(label, prop);
 			}	
 		}
 	}
+	
+	
 	
 	 
 	

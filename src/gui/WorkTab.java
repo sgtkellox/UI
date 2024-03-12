@@ -101,7 +101,7 @@ public class WorkTab extends VBox {
 
 		ListView<Slide> fileList = new ListView<Slide>();
 		fileList.setItems(SlideContainer.getSlides());
-		System.out.println(SlideContainer.getSlides().toString());
+		
 		
 		
 		
@@ -191,7 +191,8 @@ public class WorkTab extends VBox {
 														
 							popup.hide();
 							display.statsView.showWeightedVote(SlideContainer.getSlides().get(0).getClassifications().get(0));
-							//System.out.println(SlideContainer.getSlides().get(0).getClassifications().get(0).getSlideClassification());
+							display.showMap(SlideContainer.getSlides().get(0).getClassifications().get(0));
+							
 						}
 					});
 

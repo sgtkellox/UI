@@ -1,7 +1,6 @@
 package gui;
 
 
-import java.io.File;
 import java.util.ArrayList;
 
 import data.SlideClassification;
@@ -15,11 +14,13 @@ import yolointerface.GroundTruth;
 
 
 public class ImageGridPane extends SplitPane {
-	ImageBox rgbPane = new ImageBox();
+	
 	StatsView statsView = new StatsView();
 
-	VegetationIndexPane vegPane = new VegetationIndexPane();
+	MapView mapView = new MapView();
 	TableViewPane table = new TableViewPane(this);
+	
+	ImageBox rgbPane = new ImageBox();
 	
 	
 	
@@ -33,8 +34,8 @@ public class ImageGridPane extends SplitPane {
 		SplitPane bot = new SplitPane();
 		
 	
-		top.getItems().addAll(rgbPane,statsView);
-		bot.getItems().addAll(vegPane,table);
+		top.getItems().addAll(mapView,statsView);
+		bot.getItems().addAll(rgbPane,table);
 		
 		this.getItems().addAll(top,bot);	
 		 
@@ -44,11 +45,6 @@ public class ImageGridPane extends SplitPane {
 		rgbPane.showImage(image);
 	}
 	
-	
-	
-	public void showNDVIImage(File image) {
-		vegPane.calcAndShowVegetationIndeizes(image);
-	}
 	
 	public void drawRGBBoundingBoxes(ObservableList<Detection> s) {
 		rgbPane.drawBoundingBoxes(s);
@@ -61,6 +57,10 @@ public class ImageGridPane extends SplitPane {
 	
 	public void showWeightedVote(SlideClassification classification) {
 		statsView.showWeightedVote(classification);
+	}
+	
+	public void showMap(SlideClassification classification) {
+		mapView.makeVisualisation(classification);
 	}
 		
 	

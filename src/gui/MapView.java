@@ -1,39 +1,55 @@
 package gui;
 
-import javafx.scene.control.Tab;
-import javafx.scene.image.Image;
+import data.SlideClassification;
+import data.TileClassification;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
-public class MapView extends Tab {
-	
+public class MapView  extends StackPane {
+
 	private ImageView imageView = new ImageView();
 
-	private Image image;
-	
+	LabelColorMap colors = LabelColorMap.instance();
+
 	public MapView() {
-		StackPane box = new StackPane();
-		imageView.setPreserveRatio(true);
-		imageView.fitHeightProperty().bind(box.heightProperty());
-		imageView.fitWidthProperty().bind(box.widthProperty());
-		imageView.setManaged(false);
 		
-		box.getChildren().add(imageView);
-		this.setContent(box);
-	}
-	
-	public void showImage(Image image) {
-		this.setImage(image);
-		imageView.setImage(image);
+		imageView.setPreserveRatio(true);
+		imageView.fitHeightProperty().bind(this.heightProperty());
+		imageView.fitWidthProperty().bind(this.widthProperty());
+		imageView.setManaged(false);
+
+		this.getChildren().add(imageView);
 	}
 
-	public Image getImage() {
-		return image;
-	}
+	public void makeVisualisation(SlideClassification slideClassification) {
+		
+		int pixelSize = 20;
+		int offSet = 100;
+		int tileSize = slideClassification.getTileClassifications().get(0).getTile().getSize();
 
-	public void setImage(Image image) {
-		this.image = image;
-	}
+		int width = (slideClassification.getSlide().getWsiWith()/tileSize)*pixelSize+offSet;
+		int height = slideClassification.getSlide().getWsiHeight()/tileSize*pixelSize+offSet;
+		WritableImage resultImage = new WritableImage(width, height);
+		PixelWriter writer = resultImage.getPixelWriter();
+		for (TileClassification tc : slideClassification.getTileClassifications()) {
+			int[] pos = tc.getScaledPosition();
+			
+			Color color = LabelColorMap.lookUpColor(tc.getBest());
+			for (int x = pos[0]*pixelSize+offSet/2; x < pos[0]*pixelSize+pixelSize+offSet/2; x++) {
+				for (int y =pos[1]*pixelSize+offSet/2; y < pos[1]*pixelSize+pixelSize+offSet/2; y++) {
 
+					writer.setColor(x, y, color);
+					
+				}
+		}
+		}
+
+		
+		imageView.setImage(resultImage);
+		
+	}
 
 }

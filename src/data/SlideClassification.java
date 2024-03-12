@@ -66,7 +66,7 @@ public class SlideClassification {
 	}
 	
 	public void calcWeightedSums() {
-		//System.out.println("size" + tileClassifications.size());
+		
 		for(String label: this.possibleClassifications) {
 			wheightedSumConfidenzes.put(label, 0.0);
 			
@@ -85,19 +85,12 @@ public class SlideClassification {
 		}
 		for(TileClassification tileClassification: tileClassifications) {
 			String label = tileClassification.getBest();
-			System.out.println(label);
 			sumConfidenzes.put(label, sumConfidenzes.get(label) + 1);  
 		}	
 	}
 	
 	
-	public void makeVisualisation() {
-		
-		for(TileClassification tc : tileClassifications) {
-			int[] pos = tc.getScaledPosition();
-			pos[0] = 1;			
-		}	
-	}
+	
 	public ModelDefinition getUsedModel() {
 		return usedModel;
 	}
