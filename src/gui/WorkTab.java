@@ -53,8 +53,17 @@ public class WorkTab extends VBox {
 		btnPreviousImage.setOnAction(e -> {
 
 			if (SlideContainer.getCurrentSelectedIndex() > 0) {
-				
-				SlideContainer.setCurrentSelectedIndex(SlideContainer.getCurrentSelectedIndex() - 1);
+				int currentIndex = SlideContainer.getCurrentSelectedIndex() - 1;
+				SlideContainer.setCurrentSelectedIndex(currentIndex);
+				if(!SlideContainer.getSlides().get(currentIndex).getClassifications().isEmpty()) {
+					display.statsView.showStats(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0));
+					display.showMap(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0));
+					
+				}else {
+					display.statsView.clear();
+					display.mapView.showPlaceholder();
+					
+				}
 
 				
 				
@@ -65,9 +74,18 @@ public class WorkTab extends VBox {
 		Button btnNextImage = new Button(">>");
 		btnNextImage.setOnAction(e -> {
 
-			if (SlideContainer.getCurrentSelectedIndex() < SlideContainer.getSlides().size()) {
-				
-				SlideContainer.setCurrentSelectedIndex(SlideContainer.getCurrentSelectedIndex() + 1);
+			if (SlideContainer.getCurrentSelectedIndex() < SlideContainer.getSlides().size()-1) {
+				int currentIndex = SlideContainer.getCurrentSelectedIndex() + 1;
+				SlideContainer.setCurrentSelectedIndex(currentIndex);
+				if(!SlideContainer.getSlides().get(currentIndex).getClassifications().isEmpty()) {
+					display.statsView.showStats(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0));
+					display.showMap(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0));
+					
+				}else {
+					display.statsView.clear();
+					display.mapView.showPlaceholder();
+					
+				}
 				
 			}
 
@@ -230,7 +248,7 @@ public class WorkTab extends VBox {
 					public void handle(WorkerStateEvent t) {
 													
 						popup.hide();
-						display.statsView.showWeightedVote(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0));
+						display.statsView.showStats(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0));
 						display.showMap(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0));
 						
 					}

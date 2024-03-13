@@ -30,7 +30,7 @@ public class EffNet extends Task<Object> {
 
 	
 
-	private String modelPath = "E:\\models\\kryo\\non-glial\\384_10x_pt\\model_60.pt";
+	private String modelPath = "D:\\models\\kryo\\non-glial\\384_10x_pt\\model_60.pt";
 
 	
 	
@@ -112,7 +112,7 @@ public class EffNet extends Task<Object> {
 			slidePrediction.calcSums();
 			SlideContainer.addClassification(slidePrediction);
 			
-			model.close();
+			//model.close();
 			
 		} catch (ModelNotFoundException e) {
 			// TODO Auto-generated catch block

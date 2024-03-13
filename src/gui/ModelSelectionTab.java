@@ -12,12 +12,12 @@ import modelCollection.ModelDefinition;
 import yolointerface.DetectionExecuter;
 import yolointerface.ImageContainer;
 
-public class YoloSetUpTab extends VBox {
+public class ModelSelectionTab extends VBox {
 
 	ImageContainer imageContainer = ImageContainer.instance();
 	DetectionExecuter detector = DetectionExecuter.instance();
 
-	public YoloSetUpTab(ImageGridPane display) {
+	public ModelSelectionTab(ImageGridPane display) {
 		
 		this.getStylesheets().add(String.valueOf(this.getClass().getResource("css/WorkTab.css")));
 		this.setId("parent");

@@ -2,6 +2,7 @@ package gui;
 
 import data.SlideClassification;
 import data.TileClassification;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
@@ -50,6 +51,10 @@ public class MapView  extends StackPane {
 		
 		imageView.setImage(resultImage);
 		
+	}
+	
+	public void showPlaceholder() {
+		imageView.setImage(null); 
 	}
 
 }

@@ -56,7 +56,7 @@ public class ImageGridPane extends SplitPane {
 	}
 	
 	public void showWeightedVote(SlideClassification classification) {
-		statsView.showWeightedVote(classification);
+		statsView.showStats(classification);
 	}
 	
 	public void showMap(SlideClassification classification) {

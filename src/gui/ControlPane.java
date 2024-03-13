@@ -13,7 +13,7 @@ public class ControlPane extends TabPane {
 		 
 		 Tab yoloSetUpTab = new Tab();
 		 yoloSetUpTab.setText("Models");
-		 yoloSetUpTab.setContent(new YoloSetUpTab(display));
+		 yoloSetUpTab.setContent(new ModelSelectionTab(display));
 		 		 
 		 this.getTabs().addAll(workTab,yoloSetUpTab);	 
 	 }

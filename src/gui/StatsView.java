@@ -31,7 +31,8 @@ public class StatsView extends StackPane {
 
 	}
 
-	public void showWeightedVote(SlideClassification slideClassification) {
+	public void showStats(SlideClassification slideClassification) {
+		bc.getData().clear();
 		Series<String, Number> series1 = new XYChart.Series<String, Number>();
 		series1.setName("weigted");
 		
@@ -40,7 +41,7 @@ public class StatsView extends StackPane {
 
 		for (String label : slideClassification.getWheightedSumConfidenzes().keySet()) {
 			
-			String colorString = LabelColorMap.lookUpColorString(label);
+			
 			Color color = LabelColorMap.lookUpColor(label);
 			String rgb = String.format("%d, %d, %d",
 				    (int) (color.getRed() * 255),
@@ -79,6 +80,10 @@ public class StatsView extends StackPane {
 		bc.setLegendVisible(false);
 		bc.getData().add(series1);
 		bc.getData().add(series2);
+	}
+	
+	public void clear() {
+		bc.getData().clear();
 	}
 
 
