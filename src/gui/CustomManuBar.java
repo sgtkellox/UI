@@ -9,7 +9,7 @@ import javafx.scene.control.MenuItem;
 public class CustomManuBar extends MenuBar {
 	
 	
-	public CustomManuBar() {
+	public CustomManuBar(ImageGridPane display) {
 		this.getStylesheets().add(String.valueOf(this.getClass().getResource("css/RootPane.css")));
 		Menu menuFile = new Menu("File");
 		Menu menuSettings = new Menu("Settings");
@@ -30,6 +30,7 @@ public class CustomManuBar extends MenuBar {
 		
 		loadTilesItem.setOnAction(e->{
 			Loader.loadWSIsFromTiles();
+			
 		});
 		
 		

@@ -1,23 +1,25 @@
-#parent{
-	  -fx-background-color : rgb(192, 192, 192); 
-	  -fx-padding: 5 5 5 5;
-	  -fx-spacing: 8;
+#parent {
+	-fx-background-color: rgb(172, 172, 172);
+	-fx-padding: 5 5 5 5;
+	-fx-spacing: 8;
 }
 
-.button{
+.button {
 	-fx-pref-height: 28px;
-    -fx-pref-width: 200px;
+	-fx-pref-width: 200px;
+	-fx-focus-color: rgb(0, 72, 111);
 }
 
-.text-field{
-	-fx-pref-height: 28px;
-    -fx-pref-width: 150px;
+
+
+.list-view {
+	-fx-focus-color: rgb(0, 72, 111);
 }
 
 
 #popup{
 	
-	 -fx-border-color:  rgb(0, 0, 255) ;
+	 -fx-border-color:  rgb(0, 72, 111) ;
 	 -fx-background-color :grey;
      -fx-border-width: 5 ; 
 	 -fx-padding: 5 5 5 5;

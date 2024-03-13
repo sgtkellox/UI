@@ -1,23 +1,10 @@
 package application;
 	
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-
-import javax.imageio.ImageIO;
-
 import gui.RootPane;
-import ij.ImagePlus;
-import ij.io.Opener;
 import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.layout.HBox;
-import modelCollection.EffNet;
 
 
 

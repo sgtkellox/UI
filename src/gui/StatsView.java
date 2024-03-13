@@ -34,66 +34,52 @@ public class StatsView extends StackPane {
 	public void showWeightedVote(SlideClassification slideClassification) {
 		Series<String, Number> series1 = new XYChart.Series<String, Number>();
 		series1.setName("weigted");
-
-		for (String label : slideClassification.getWheightedSumConfidenzes().keySet()) {
-			XYChart.Data<String, Number> dataS1 = new XYChart.Data<>(label, slideClassification.getSumConfidenzes().get(label));
-			dataS1.nodeProperty().addListener(new ChangeListener<Node>() {
-				@Override
-				public void changed(ObservableValue<? extends Node> ov, Node oldNode, Node newNode) {
-					if (newNode != null) {
-						Color color = LabelColorMap.lookUpColor(label);
-						newNode.setStyle("-fx-bar-fill: "+toString()+";");
-
-					}
-				}
-			});
-			series1.getData().add(dataS1);
-
-		}
+		
 		Series<String, Number> series2 = new XYChart.Series<String, Number>();
 		series2.setName("simple");
 
 		for (String label : slideClassification.getWheightedSumConfidenzes().keySet()) {
-
+			
+			String colorString = LabelColorMap.lookUpColorString(label);
+			Color color = LabelColorMap.lookUpColor(label);
+			String rgb = String.format("%d, %d, %d",
+				    (int) (color.getRed() * 255),
+				    (int) (color.getGreen() * 255),
+				    (int) (color.getBlue() * 255));
+			
 			XYChart.Data<String, Number> dataS1 = new XYChart.Data<>(label, slideClassification.getSumConfidenzes().get(label));
 			dataS1.nodeProperty().addListener(new ChangeListener<Node>() {
 				@Override
 				public void changed(ObservableValue<? extends Node> ov, Node oldNode, Node newNode) {
 					if (newNode != null) {
-						Color color = LabelColorMap.lookUpColor(label);
-						newNode.setStyle("-fx-bar-fill: "+color.toString()+";");
-
-					}
-				}
-			});
-			series2.getData().add(dataS1);
-		}
-
-		bc.getData().add(series1);
-		bc.getData().add(series2);
-	}
-
-	public void showVote(SlideClassification slideClassification) {
-		Series<String, Number> series1 = new XYChart.Series<String, Number>();
-		series1.setName(slideClassification.getSlide().getName());
-
-		for (String label : slideClassification.getWheightedSumConfidenzes().keySet()) {
-			XYChart.Data<String, Number> dataS1 = new XYChart.Data<>(label, slideClassification.getSumConfidenzes().get(label));
-			dataS1.nodeProperty().addListener(new ChangeListener<Node>() {
-				@Override
-				public void changed(ObservableValue<? extends Node> ov, Node oldNode, Node newNode) {
-					if (newNode != null) {
-						Color color = LabelColorMap.lookUpColor(label);
-						newNode.setStyle("-fx-bar-fill: "+color.hashCode()+";");
-
+						
+						//newNode.setStyle("-fx-bar-fill: "+colorString+";");
+						newNode.setStyle("-fx-bar-fill: rgba(" + rgb + ", 1.0);");
 					}
 				}
 			});
 			series1.getData().add(dataS1);
+			XYChart.Data<String, Number> dataS2 = new XYChart.Data<>(label, slideClassification.getWheightedSumConfidenzes().get(label));
+			dataS2.nodeProperty().addListener(new ChangeListener<Node>() {
+				@Override
+				public void changed(ObservableValue<? extends Node> ov, Node oldNode, Node newNode) {
+					if (newNode != null) {
+						
+						
+						//newNode.setStyle("-fx-bar-fill: "+colorString+";");
+						newNode.setStyle("-fx-bar-fill: rgba(" + rgb + ", 0.5);");
+
+					}
+				}
+			});
+			series2.getData().add(dataS2);
+
 		}
-
+		
+		bc.setLegendVisible(false);
 		bc.getData().add(series1);
-
+		bc.getData().add(series2);
 	}
+
 
 }

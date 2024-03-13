@@ -1,10 +1,5 @@
 package gui;
 
-import java.io.File;
-import java.io.FileInputStream;
-
-import java.io.IOException;
-
 import org.controlsfx.control.CheckComboBox;
 
 import data.Slide;
@@ -21,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -31,11 +25,6 @@ import javafx.stage.Window;
 import modelCollection.EffNet;
 import modelCollection.ModelContainer;
 import modelCollection.ModelDefinition;
-import modelCollection.YoloPytorchCIR;
-import modelCollection.YoloPytorchRGB;
-import vegetationIndices.Calculator;
-
-import yolointerface.Detection;
 import yolointerface.DetectionExecuter;
 
 
@@ -53,21 +42,8 @@ public class WorkTab extends VBox {
 
 		this.display = display;
 
-		VBox progressBarContent = new VBox();
-		progressBarContent.getStylesheets().add(String.valueOf(this.getClass().getResource("css/WorkTab.css")));
-		progressBarContent.setId("popup");
-		Label lblDetectionInProgress = new Label("processing tiles");
 		
 		
-		ProgressBar progressBar = new ProgressBar(0);
-		progressBar.setStyle("-fx-accent: blue;");
-		Popup popup = new Popup();
-		
-		
-		progressBarContent.getChildren().addAll(lblDetectionInProgress,progressBar);
-		
-
-		popup.getContent().add(progressBarContent);
 
 		HBox backAndForBox = new HBox();
 		
@@ -101,18 +77,25 @@ public class WorkTab extends VBox {
 
 		ListView<Slide> fileList = new ListView<Slide>();
 		fileList.setItems(SlideContainer.getSlides());
-		
-		
-		
-		
+				
 		fileList.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 			@Override
 			public void handle(MouseEvent click) {
 
 				if (click.getClickCount() == 2) {
 					
 					Slide currentItemSelected = fileList.getSelectionModel().getSelectedItem();
+					int index = SlideContainer.getSlides().indexOf(currentItemSelected);
+					SlideContainer.setCurrentSelectedIndex(index);
+					callClassifier();
+						
+				}
+				
+				else if (click.getClickCount() == 1) {
+					
+					Slide currentItemSelected = fileList.getSelectionModel().getSelectedItem();
+					int index = SlideContainer.getSlides().indexOf(currentItemSelected);
+					SlideContainer.setCurrentSelectedIndex(index);
 						
 				}
 			}
@@ -162,67 +145,20 @@ public class WorkTab extends VBox {
 		Button btnMakeClassification = new Button("Classify");
 		btnMakeClassification.setOnAction(e -> {
 			
-			progressBar.progressProperty().unbind();
-			progressBar.setProgress(0);
-			EffNet effNet = new EffNet();
-			
-			effNet.setSlide(SlideContainer.getSlides().get(0));
-
-			Window owner = Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
-			double[] pos = progressBarPosition();
-			progressBarContent.setPrefWidth(pos[2]);
-			progressBarContent.setPrefHeight(pos[3]);
-			progressBar.setPrefWidth(pos[2]);
-			popup.show(owner, pos[0], pos[1]);
-			
-			
-
-		
-			// Bind progress property
-			progressBar.progressProperty().bind(effNet.progressProperty());
-			
-			
-
-			effNet.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, //
-					new EventHandler<WorkerStateEvent>() {
-
-						@Override
-						public void handle(WorkerStateEvent t) {
-														
-							popup.hide();
-							display.statsView.showWeightedVote(SlideContainer.getSlides().get(0).getClassifications().get(0));
-							display.showMap(SlideContainer.getSlides().get(0).getClassifications().get(0));
-							
-						}
-					});
-
-			// Start the Task.
-			new Thread(effNet).start();
+			callClassifier();
 			
 		});
 		
 		HBox boxCLassifyButton = new HBox();
 		boxCLassifyButton.setAlignment(Pos.BASELINE_RIGHT);
 		boxCLassifyButton.getChildren().add(btnMakeClassification);
-
-		
-
-		
-
-			
-
 		backAndForBox.getChildren().addAll(btnPreviousImage, btnNextImage);
 
 		this.getChildren().addAll(backAndForBox, fileList, lblConfidenz, rgbCondfidenz,modelComboBox, boxCLassifyButton);
 
 	}
 
-	private File displaySelectedFile(File file) {
-		return null;
-
-	}
-
-
+	
 	private double[] progressBarPosition() {
 		double[] pos = new double[4];
 		Bounds bounds;
@@ -248,5 +184,59 @@ public class WorkTab extends VBox {
 	}
 
 	
+	private void callClassifier() {
+		
+		VBox progressBarContent = new VBox();
+		progressBarContent.getStylesheets().add(String.valueOf(this.getClass().getResource("css/WorkTab.css")));
+		progressBarContent.setId("popup");
+		Label lblDetectionInProgress = new Label("processing tiles");
+		
+		
+		ProgressBar progressBar = new ProgressBar(0);
+		progressBar.setStyle("-fx-accent: #00486f;");
+		Popup popup = new Popup();
+		
+		
+		progressBarContent.getChildren().addAll(lblDetectionInProgress,progressBar);
+		
 
+		popup.getContent().add(progressBarContent);
+		
+		progressBar.progressProperty().unbind();
+		progressBar.setProgress(0);
+		EffNet effNet = new EffNet();
+		
+		effNet.setSlide(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()));
+
+		Window owner = Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
+		double[] pos = progressBarPosition();
+		progressBarContent.setPrefWidth(pos[2]);
+		progressBarContent.setPrefHeight(pos[3]);
+		progressBar.setPrefWidth(pos[2]);
+		popup.show(owner, pos[0], pos[1]);
+		
+		
+
+	
+		// Bind progress property
+		progressBar.progressProperty().bind(effNet.progressProperty());
+		
+		
+
+		effNet.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, //
+				new EventHandler<WorkerStateEvent>() {
+
+					@Override
+					public void handle(WorkerStateEvent t) {
+													
+						popup.hide();
+						display.statsView.showWeightedVote(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0));
+						display.showMap(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0));
+						
+					}
+				});
+
+		// Start the Task.
+		new Thread(effNet).start();
+	}
 }

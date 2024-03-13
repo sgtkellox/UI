@@ -12,6 +12,7 @@ public class SlideContainer {
 	private static SlideContainer sLideContainer = null;
 	private static final ObservableList<Slide> slides = FXCollections.observableArrayList();	
 	private static int currentSelectedIndex = 0;
+	
 	private SlideContainer() {
 		
 		

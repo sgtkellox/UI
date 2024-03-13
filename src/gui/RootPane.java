@@ -29,7 +29,7 @@ public class RootPane extends BorderPane {
 		this.getStylesheets().add(String.valueOf(this.getClass().getResource("css/RootPane.css")));
 		ImageGridPane display = new ImageGridPane();
 		
-		CustomManuBar menuBar = new CustomManuBar();
+		CustomManuBar menuBar = new CustomManuBar(display);
 
 		topStripe = new HBox();
 		

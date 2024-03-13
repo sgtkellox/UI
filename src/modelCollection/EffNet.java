@@ -30,7 +30,7 @@ public class EffNet extends Task<Object> {
 
 	
 
-	private String modelPath = "D:\\models\\kryo\\non-glial\\384_10x_pt\\model_60.pt";
+	private String modelPath = "E:\\models\\kryo\\non-glial\\384_10x_pt\\model_60.pt";
 
 	
 	
@@ -85,12 +85,8 @@ public class EffNet extends Task<Object> {
 			SlideClassification slidePrediction = new SlideClassification(synset);
 			slidePrediction.setSlide(slide);
 			
-			
-			
-
 			for (Tile tile : slide.getTiles()) {
-				
-				
+								
 				Image img = ImageFactory.getInstance().fromFile(Paths.get(tile.getPath()));
 				img.getWrappedImage();
 				
@@ -115,7 +111,9 @@ public class EffNet extends Task<Object> {
 			slidePrediction.calcWeightedSums();
 			slidePrediction.calcSums();
 			SlideContainer.addClassification(slidePrediction);
-			System.out.println("name " + SlideContainer.getSlides().get(0).getName());
+			
+			model.close();
+			
 		} catch (ModelNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -149,58 +147,6 @@ public class EffNet extends Task<Object> {
 		this.slide = slide;
 	}
 	
-	public void process(String json) {
-		String[] split = json.split(":");
-		
-		for (String s: split) {
-			s = s.replaceAll("\\{", "");
-			s = s.replaceAll("\\}", "");
-			s = s.replaceAll("\\[", "");
-			s = s.replaceAll("\\]", "");
-			
-			s = s.replaceAll("\n", "");
-			s = s.strip();
-			String[] split2 = s.split(",");
-			
-			System.out.println(split2[0]);
-			//System.out.println(split2[3]);
-			
-		}
-	}
 	
-	public void process2(String s) {
-		
-		
-		
-			s = s.replaceAll("\\{", "");
-			s = s.replaceAll("\\}", "");
-			s = s.replaceAll("\\[", "");
-			s = s.replaceAll("\\]", "");
-			
-			s = s.replaceAll("\n", "");
-			s = s.strip();
-			//System.out.println(s);
-			String[] split2 = s.split(",");
-			
-			
-			
-			for(int i = 0; i<split2.length; i++) {
-				String s2 = split2[i];
-				s2 = s2.trim();
-				s2 = s2.replaceAll("\"", "");
-				s2 = s2.split(":")[1].trim();
-				if(i%2 == 0) {
-					System.out.println("name " + s2);
-				}else {
-					System.out.println("prop " + s2);
-				}	
-			}
-			//System.out.println(split2[3]);
-			
-		
-	}
-	
-	
-
 
 }
