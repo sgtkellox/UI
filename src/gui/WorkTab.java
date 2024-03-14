@@ -34,6 +34,8 @@ public class WorkTab extends VBox {
 	ModelContainer modelContainer = ModelContainer.instance();
 	DetectionExecuter detector = DetectionExecuter.instance();
 	ImageGridPane display;
+	
+	private double currentConfNiveau = 0.0;
 
 	public WorkTab(ImageGridPane display) {
 
@@ -57,7 +59,7 @@ public class WorkTab extends VBox {
 				SlideContainer.setCurrentSelectedIndex(currentIndex);
 				if(!SlideContainer.getSlides().get(currentIndex).getClassifications().isEmpty()) {
 					display.statsView.showStats(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0));
-					display.showMap(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0));
+					display.showMap(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0),currentConfNiveau);
 					
 				}else {
 					display.statsView.clear();
@@ -79,7 +81,7 @@ public class WorkTab extends VBox {
 				SlideContainer.setCurrentSelectedIndex(currentIndex);
 				if(!SlideContainer.getSlides().get(currentIndex).getClassifications().isEmpty()) {
 					display.statsView.showStats(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0));
-					display.showMap(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0));
+					display.showMap(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0),currentConfNiveau);
 					
 				}else {
 					display.statsView.clear();
@@ -114,6 +116,15 @@ public class WorkTab extends VBox {
 					Slide currentItemSelected = fileList.getSelectionModel().getSelectedItem();
 					int index = SlideContainer.getSlides().indexOf(currentItemSelected);
 					SlideContainer.setCurrentSelectedIndex(index);
+					if(!SlideContainer.getSlides().get(index).getClassifications().isEmpty()) {
+						display.statsView.showStats(SlideContainer.getSlides().get(index).getClassifications().get(0));
+						display.showMap(SlideContainer.getSlides().get(index).getClassifications().get(0),currentConfNiveau);
+						
+					}else {
+						display.statsView.clear();
+						display.mapView.showPlaceholder();
+						
+					}
 						
 				}
 			}
@@ -143,7 +154,7 @@ public class WorkTab extends VBox {
 		Slider rgbCondfidenz = new Slider();
 		rgbCondfidenz.setMin(0);
 		rgbCondfidenz.setMax(100);
-		rgbCondfidenz.setValue(20);
+		rgbCondfidenz.setValue(0);
 		rgbCondfidenz.setShowTickMarks(true);
 		rgbCondfidenz.setShowTickLabels(true);
 		rgbCondfidenz.setMinorTickCount(1);
@@ -152,7 +163,8 @@ public class WorkTab extends VBox {
 		rgbCondfidenz.setSnapToTicks(true);
 		rgbCondfidenz.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				detector.setConfidenzNiveau(new_val.doubleValue() / 100);
+				currentConfNiveau = new_val.doubleValue() / 100;
+				display.showMap(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0),currentConfNiveau);
 
 			}
 		});
@@ -249,7 +261,7 @@ public class WorkTab extends VBox {
 													
 						popup.hide();
 						display.statsView.showStats(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0));
-						display.showMap(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0));
+						display.showMap(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0),currentConfNiveau);
 						
 					}
 				});

@@ -59,8 +59,8 @@ public class ImageGridPane extends SplitPane {
 		statsView.showStats(classification);
 	}
 	
-	public void showMap(SlideClassification classification) {
-		mapView.makeVisualisation(classification);
+	public void showMap(SlideClassification classification,double confThreshOld) {
+		mapView.makeVisualisation(classification,confThreshOld);
 	}
 		
 	

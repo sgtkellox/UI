@@ -24,7 +24,7 @@ public class Loader  {
 		
 		//File selectedDirectory = directoryChooser.showDialog(new Stage());
 		
-		File selectedDirectory = new File("D:\\testSets\\kryo\\non-glial\\384_10x\\LYM");
+		File selectedDirectory = new File("E:\\testSets\\kryo\\non-glial\\384_10x\\LYM");
 		if(!selectedDirectory.exists()) {
 			return ;
 		}
@@ -35,6 +35,8 @@ public class Loader  {
 		List<Slide> slideList = createWsisFromTiles(files);
 		
 		SlideContainer.getSlides().addAll(slideList);
+		
+		
 		
 		
 	}

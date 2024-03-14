@@ -23,6 +23,8 @@ public class TileClassification {
 		this.tile = tile;
 		//System.out.println(tile.getPath());
 		extractJsonInformation(json);
+		applySoftMax();
+		//printProps();
 		calcBest();		
 	}
 	public Tile getTile() {
@@ -45,14 +47,10 @@ public class TileClassification {
 	public HashMap<String,Double> getPropabilities() {
 		return propabilities;
 	}
-
-
-
+	
 	public void setPropabilities(HashMap<String,Double> propabilities) {
 		this.propabilities = propabilities;
 	}
-
-
 
 	public String getBest() {
 		return best;
@@ -78,6 +76,12 @@ public class TileClassification {
 			}
 		}
 		this.maxConf = max;
+	}
+	
+	private void printProps() {
+		for(Entry<String, Double> e : this.propabilities.entrySet()) {
+			System.out.println(e.getKey() + Double.toString(e.getValue()));
+		}
 	}
 	
 	private void extractJsonInformation(String s) {
@@ -113,10 +117,18 @@ public class TileClassification {
 	}
 	
 	
-	
-	 
-	
-	
-	
-
+	public void applySoftMax() {
+		HashMap<String,Double> map = new HashMap<String,Double>();
+		double sum = 0.0;
+		for(Double d : this.propabilities.values()) {
+			sum = sum + Math.exp(d);
+		}
+		for(Entry<String,Double> e : this.propabilities.entrySet()) {
+			String label = e.getKey();
+			double res = Math.exp(e.getValue())/sum;
+			map.put(label, res);
+		}
+		this.propabilities = map;
+		
+	}
 }
