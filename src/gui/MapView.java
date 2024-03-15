@@ -32,6 +32,7 @@ public class MapView extends StackPane {
 
 		int width = (slideClassification.getSlide().getWsiWith() / tileSize) * pixelSize + offSet;
 		int height = slideClassification.getSlide().getWsiHeight() / tileSize * pixelSize + offSet;
+		
 		WritableImage resultImage = new WritableImage(width, height);
 		PixelWriter writer = resultImage.getPixelWriter();
 		for (TileClassification tc : slideClassification.getTileClassifications()) {
@@ -42,9 +43,8 @@ public class MapView extends StackPane {
 				for (int x = pos[0] * pixelSize + offSet / 2; x < pos[0] * pixelSize + pixelSize + offSet / 2; x++) {
 					for (int y = pos[1] * pixelSize + offSet / 2; y < pos[1] * pixelSize + pixelSize
 							+ offSet / 2; y++) {
-
+						
 						writer.setColor(x, y, color);
-
 					}
 				}
 			}

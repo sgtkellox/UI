@@ -20,11 +20,11 @@ public class Loader  {
 	
 	public static void loadWSIsFromTiles(){
 		
-		//DirectoryChooser directoryChooser = new DirectoryChooser();
+		DirectoryChooser directoryChooser = new DirectoryChooser();
 		
-		//File selectedDirectory = directoryChooser.showDialog(new Stage());
+		File selectedDirectory = directoryChooser.showDialog(new Stage());
 		
-		File selectedDirectory = new File("E:\\testSets\\kryo\\non-glial\\384_10x\\LYM");
+		//File selectedDirectory = new File("E:\\testSets\\kryo\\non-glial\\384_10x\\LYM");
 		if(!selectedDirectory.exists()) {
 			return ;
 		}

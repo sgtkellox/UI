@@ -25,9 +25,6 @@ public class Slide {
 		this.wsiWith = shiftValues[1] - shiftValues[0];
 		this.wsiHeight = shiftValues[3] - shiftValues[2];
 
-		System.out.println(wsiWith);
-		System.out.println(wsiHeight);
-
 		this.classifications = new ArrayList<SlideClassification>();
 
 	}
