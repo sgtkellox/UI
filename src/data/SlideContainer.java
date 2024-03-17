@@ -3,6 +3,7 @@ package data;
 
 import java.util.List;
 
+import gui.ImageGridPane;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -12,6 +13,8 @@ public class SlideContainer {
 	private static SlideContainer sLideContainer = null;
 	private static final ObservableList<Slide> slides = FXCollections.observableArrayList();	
 	private static int currentSelectedIndex = 0;
+	
+	private ImageGridPane display;
 	
 	private SlideContainer() {
 		
@@ -52,6 +55,14 @@ public class SlideContainer {
 				slide.getClassifications().add(classification);
 			}
 		}
+	}
+
+	public ImageGridPane getDisplay() {
+		return display;
+	}
+
+	public void setDisplay(ImageGridPane display) {
+		this.display = display;
 	}
 
 	

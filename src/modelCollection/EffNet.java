@@ -30,11 +30,13 @@ public class EffNet extends Task<Object> {
 
 	
 
-	private String modelPath = "E:\\models\\kryo\\non-glial\\384_10x_pt\\model_60.pt";
+	private String modelPath = "D:\\models\\kryo\\non-glial\\384_10x_pt\\model_60.pt";
 
 	
 	
 	private ArrayList<String> synset = new ArrayList<String>();
+	
+	private double conf;
 	
 	private Slide slide;
 	
@@ -109,7 +111,7 @@ public class EffNet extends Task<Object> {
 								
 			}	
 			slidePrediction.calcWeightedSums();
-			slidePrediction.calcSums();
+			slidePrediction.calcSums(conf);
 			SlideContainer.addClassification(slidePrediction);
 			
 			//model.close();
@@ -145,6 +147,14 @@ public class EffNet extends Task<Object> {
 
 	public void setSlide(Slide slide) {
 		this.slide = slide;
+	}
+
+	public double getConf() {
+		return conf;
+	}
+
+	public void setConf(double conf) {
+		this.conf = conf;
 	}
 	
 	

@@ -27,14 +27,13 @@ import modelCollection.ModelContainer;
 import modelCollection.ModelDefinition;
 import yolointerface.DetectionExecuter;
 
-
 public class WorkTab extends VBox {
 
 	SlideContainer container = SlideContainer.instance();
 	ModelContainer modelContainer = ModelContainer.instance();
 	DetectionExecuter detector = DetectionExecuter.instance();
 	ImageGridPane display;
-	
+
 	private double currentConfNiveau = 0.0;
 
 	public WorkTab(ImageGridPane display) {
@@ -44,12 +43,7 @@ public class WorkTab extends VBox {
 
 		this.display = display;
 
-		
-		
-
 		HBox backAndForBox = new HBox();
-		
-		
 
 		Button btnPreviousImage = new Button("<<");
 		btnPreviousImage.setOnAction(e -> {
@@ -57,18 +51,17 @@ public class WorkTab extends VBox {
 			if (SlideContainer.getCurrentSelectedIndex() > 0) {
 				int currentIndex = SlideContainer.getCurrentSelectedIndex() - 1;
 				SlideContainer.setCurrentSelectedIndex(currentIndex);
-				if(!SlideContainer.getSlides().get(currentIndex).getClassifications().isEmpty()) {
-					display.statsView.showStats(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0));
-					display.showMap(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0),currentConfNiveau);
-					
-				}else {
+				if (!SlideContainer.getSlides().get(currentIndex).getClassifications().isEmpty()) {
+					display.statsView
+							.showStats(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0));
+					display.showMap(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0),
+							currentConfNiveau);
+
+				} else {
 					display.statsView.clear();
 					display.mapView.showPlaceholder();
-					
-				}
 
-				
-				
+				}
 
 			}
 
@@ -76,80 +69,79 @@ public class WorkTab extends VBox {
 		Button btnNextImage = new Button(">>");
 		btnNextImage.setOnAction(e -> {
 
-			if (SlideContainer.getCurrentSelectedIndex() < SlideContainer.getSlides().size()-1) {
+			if (SlideContainer.getCurrentSelectedIndex() < SlideContainer.getSlides().size() - 1) {
 				int currentIndex = SlideContainer.getCurrentSelectedIndex() + 1;
 				SlideContainer.setCurrentSelectedIndex(currentIndex);
-				if(!SlideContainer.getSlides().get(currentIndex).getClassifications().isEmpty()) {
-					display.statsView.showStats(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0));
-					display.showMap(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0),currentConfNiveau);
-					
-				}else {
+				if (!SlideContainer.getSlides().get(currentIndex).getClassifications().isEmpty()) {
+					display.statsView
+							.showStats(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0));
+					display.showMap(SlideContainer.getSlides().get(currentIndex).getClassifications().get(0),
+							currentConfNiveau);
+
+				} else {
 					display.statsView.clear();
 					display.mapView.showPlaceholder();
-					
+
 				}
-				
+
 			}
 
 		});
-		
-		
 
 		ListView<Slide> fileList = new ListView<Slide>();
 		fileList.setItems(SlideContainer.getSlides());
-				
+
 		fileList.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent click) {
 
 				if (click.getClickCount() == 2) {
-					
+
 					Slide currentItemSelected = fileList.getSelectionModel().getSelectedItem();
 					int index = SlideContainer.getSlides().indexOf(currentItemSelected);
 					SlideContainer.setCurrentSelectedIndex(index);
 					callClassifier();
-						
+
 				}
-				
+
 				else if (click.getClickCount() == 1) {
-					
+
 					Slide currentItemSelected = fileList.getSelectionModel().getSelectedItem();
 					int index = SlideContainer.getSlides().indexOf(currentItemSelected);
 					SlideContainer.setCurrentSelectedIndex(index);
-					if(!SlideContainer.getSlides().get(index).getClassifications().isEmpty()) {
+					if (!SlideContainer.getSlides().get(index).getClassifications().isEmpty()) {
 						display.statsView.showStats(SlideContainer.getSlides().get(index).getClassifications().get(0));
-						display.showMap(SlideContainer.getSlides().get(index).getClassifications().get(0),currentConfNiveau);
-						
-					}else {
+						display.showMap(SlideContainer.getSlides().get(index).getClassifications().get(0),
+								currentConfNiveau);
+
+					} else {
 						display.statsView.clear();
 						display.mapView.showPlaceholder();
-						
+
 					}
-						
+
 				}
 			}
 		});
-		
-		//select Model combobox
-		
-		 // Create the CheckComboBox with the data 
-		 final CheckComboBox<ModelDefinition> modelComboBox = new CheckComboBox<ModelDefinition>(ModelContainer.getModels());
-		 
-		 // and listen to the relevant events (e.g. when the selected indices or 
-		 // selected items change).
-		 modelComboBox.getCheckModel().getCheckedItems().addListener(new ListChangeListener<ModelDefinition>() {
-		     public void onChanged(ListChangeListener.Change<? extends ModelDefinition> c) {
-		         System.out.println(modelComboBox.getCheckModel().getCheckedItems());
-		     }
-		 });
-		 modelComboBox.setTitle("Select a Model");
-		 
-		 modelComboBox.setMaxWidth(Double.MAX_VALUE);
-		 
-		 
-		
-		
-		//confidenz niveau slider 
+
+		// select Model combobox
+
+		// Create the CheckComboBox with the data
+		final CheckComboBox<ModelDefinition> modelComboBox = new CheckComboBox<ModelDefinition>(
+				ModelContainer.getModels());
+
+		// and listen to the relevant events (e.g. when the selected indices or
+		// selected items change).
+		modelComboBox.getCheckModel().getCheckedItems().addListener(new ListChangeListener<ModelDefinition>() {
+			public void onChanged(ListChangeListener.Change<? extends ModelDefinition> c) {
+				System.out.println(modelComboBox.getCheckModel().getCheckedItems());
+			}
+		});
+		modelComboBox.setTitle("Select a Model");
+
+		modelComboBox.setMaxWidth(Double.MAX_VALUE);
+
+		// confidenz niveau slider
 		Label lblConfidenz = new Label("Confidenz in %");
 		Slider rgbCondfidenz = new Slider();
 		rgbCondfidenz.setMin(0);
@@ -164,31 +156,46 @@ public class WorkTab extends VBox {
 		rgbCondfidenz.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				currentConfNiveau = new_val.doubleValue() / 100;
-				display.showMap(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0),currentConfNiveau);
+				display.statsView.bc.setAnimated(false);
+				if (old_val.doubleValue() > new_val.doubleValue()) {
+
+					display.showMap(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0), currentConfNiveau);
+							
+
+					//SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0).restSumsDown(currentConfNiveau);
+							
+					//display.statsView.showStats(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0));
+							
+
+				} else {
+
+					display.showMap(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0), currentConfNiveau);
+
+					//SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0).restSumsUp(currentConfNiveau);
+					//display.statsView.showStats(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0));
+
+				}
 
 			}
 		});
-		
-		
-		
 
 		Button btnMakeClassification = new Button("Classify");
 		btnMakeClassification.setOnAction(e -> {
-			
+
 			callClassifier();
-			
+
 		});
-		
+
 		HBox boxCLassifyButton = new HBox();
 		boxCLassifyButton.setAlignment(Pos.BASELINE_RIGHT);
 		boxCLassifyButton.getChildren().add(btnMakeClassification);
 		backAndForBox.getChildren().addAll(btnPreviousImage, btnNextImage);
 
-		this.getChildren().addAll(backAndForBox, fileList, lblConfidenz, rgbCondfidenz,modelComboBox, boxCLassifyButton);
+		this.getChildren().addAll(backAndForBox, fileList, lblConfidenz, rgbCondfidenz, modelComboBox,
+				boxCLassifyButton);
 
 	}
 
-	
 	private double[] progressBarPosition() {
 		double[] pos = new double[4];
 		Bounds bounds;
@@ -196,47 +203,42 @@ public class WorkTab extends VBox {
 
 		bounds = display.getBoundsInLocal();
 		screenBounds = display.localToScreen(bounds);
-		
-		
 
 		double x = screenBounds.getMinX();
 		double y = screenBounds.getMinY();
 		double width = screenBounds.getWidth();
 		double height = screenBounds.getHeight();
-		double popupWidth = width*0.2;
-		double popupHeight = height*0.1;
-		pos[0] = x + (width / 2) - popupWidth/2;
-		pos[1] = y + (height / 2) - popupHeight/2;
+		double popupWidth = width * 0.2;
+		double popupHeight = height * 0.1;
+		pos[0] = x + (width / 2) - popupWidth / 2;
+		pos[1] = y + (height / 2) - popupHeight / 2;
 		pos[2] = popupWidth;
 		pos[3] = popupHeight;
 		return pos;
 
 	}
 
-	
 	private void callClassifier() {
-		
+
 		VBox progressBarContent = new VBox();
 		progressBarContent.getStylesheets().add(String.valueOf(this.getClass().getResource("css/WorkTab.css")));
 		progressBarContent.setId("popup");
 		Label lblDetectionInProgress = new Label("processing tiles");
-		
-		
+
 		ProgressBar progressBar = new ProgressBar(0);
 		progressBar.setStyle("-fx-accent: #00486f;");
 		Popup popup = new Popup();
-		
-		
-		progressBarContent.getChildren().addAll(lblDetectionInProgress,progressBar);
-		
+
+		progressBarContent.getChildren().addAll(lblDetectionInProgress, progressBar);
 
 		popup.getContent().add(progressBarContent);
-		
+
 		progressBar.progressProperty().unbind();
 		progressBar.setProgress(0);
 		EffNet effNet = new EffNet();
-		
+
 		effNet.setSlide(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()));
+		effNet.setConf(currentConfNiveau);
 
 		Window owner = Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
 		double[] pos = progressBarPosition();
@@ -244,25 +246,22 @@ public class WorkTab extends VBox {
 		progressBarContent.setPrefHeight(pos[3]);
 		progressBar.setPrefWidth(pos[2]);
 		popup.show(owner, pos[0], pos[1]);
-		
-		
 
-	
 		// Bind progress property
 		progressBar.progressProperty().bind(effNet.progressProperty());
-		
-		
 
 		effNet.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, //
 				new EventHandler<WorkerStateEvent>() {
 
 					@Override
 					public void handle(WorkerStateEvent t) {
-													
+
 						popup.hide();
-						display.statsView.showStats(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0));
-						display.showMap(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0),currentConfNiveau);
-						
+						display.statsView.showStats(SlideContainer.getSlides()
+								.get(SlideContainer.getCurrentSelectedIndex()).getClassifications().get(0));
+						display.showMap(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex())
+								.getClassifications().get(0), currentConfNiveau);
+
 					}
 				});
 

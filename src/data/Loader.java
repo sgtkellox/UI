@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import gui.ImageGridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import yolointerface.ImageContainer;
@@ -16,15 +15,16 @@ public class Loader  {
 	
 	ImageContainer imageContainer = ImageContainer.instance();
 	
-	ImageGridPane display;
+	
 	
 	public static void loadWSIsFromTiles(){
 		
-		DirectoryChooser directoryChooser = new DirectoryChooser();
 		
-		File selectedDirectory = directoryChooser.showDialog(new Stage());
+		//DirectoryChooser directoryChooser = new DirectoryChooser();
 		
-		//File selectedDirectory = new File("E:\\testSets\\kryo\\non-glial\\384_10x\\LYM");
+		//File selectedDirectory = directoryChooser.showDialog(new Stage());
+		
+		File selectedDirectory = new File("D:\\testSets\\kryo\\non-glial\\384_10x\\LYM");
 		if(!selectedDirectory.exists()) {
 			return ;
 		}
@@ -110,6 +110,10 @@ public class Loader  {
 		return pos;
 		
 	}
+
+	
+
+	
 	
 	
 

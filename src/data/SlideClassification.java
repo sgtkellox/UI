@@ -14,6 +14,8 @@ public class SlideClassification {
 	private List<String> possibleClassifications;
 	private HashMap<String, Integer> sumConfidenzes; 
 	private HashMap<String, Double> wheightedSumConfidenzes;
+	private  List<TileClassification> bewlowTH;
+	
 	private ModelDefinition usedModel;
 	
 	public SlideClassification() {
@@ -21,12 +23,15 @@ public class SlideClassification {
 		tileClassifications = new ArrayList<TileClassification>();
 		wheightedSumConfidenzes = new HashMap<String, Double>();
 		sumConfidenzes = new HashMap<String, Integer>();
+		bewlowTH = new ArrayList<TileClassification>();
 	}
 	public SlideClassification(List<String> possibleClassifications) {
 		this.possibleClassifications = possibleClassifications;
 		tileClassifications = new ArrayList<TileClassification>();
 		wheightedSumConfidenzes = new HashMap<String, Double>();
 		sumConfidenzes = new HashMap<String, Integer>();
+		bewlowTH = new ArrayList<TileClassification>();
+		
 	}
 
 	public List<TileClassification> getTileClassifications() {
@@ -65,6 +70,8 @@ public class SlideClassification {
 		return wheightedSumConfidenzes;
 	}
 	
+
+	
 	public void calcWeightedSums() {
 		
 		for(String label: this.possibleClassifications) {
@@ -78,14 +85,18 @@ public class SlideClassification {
 		}	
 	}
 	
-	public void calcSums() {
+	public void calcSums(double conf) {
 		for(String label: this.possibleClassifications) {
-			sumConfidenzes.put(label, 0);
-			
+			sumConfidenzes.put(label, 0);		
 		}
 		for(TileClassification tileClassification: tileClassifications) {
-			String label = tileClassification.getBest();
-			sumConfidenzes.put(label, sumConfidenzes.get(label) + 1);  
+			if(tileClassification.getMaxConf()>conf) {
+				String label = tileClassification.getBest();
+				sumConfidenzes.put(label, sumConfidenzes.get(label) + 1);
+			}else {
+				bewlowTH.add(tileClassification);
+			}
+			  
 		}	
 	}
 	
@@ -97,6 +108,58 @@ public class SlideClassification {
 	public void setUsedModel(ModelDefinition usedModel) {
 		this.usedModel = usedModel;
 	}
+	
+	public HashMap<String,Double> applyThreshOldWEighted(double conf){
+		HashMap<String,Double> updateWeighted = new HashMap<String, Double>(wheightedSumConfidenzes) ;
+		
+		
+		for(TileClassification tileClassification: tileClassifications) {
+			if(tileClassification.getMaxConf()> conf) {
+				
+				for(Entry<String, Double> e :tileClassification.getPropabilities().entrySet() ) {				
+					updateWeighted.put(e.getKey(), updateWeighted.get(e.getKey()) - e.getValue());
+				}
+			}
+			
+		}
+		
+		return updateWeighted;
+	}
+	
+	public void applyThreshOld(double conf){	
+		for(TileClassification tileClassification: tileClassifications) {
+			if(tileClassification.getMaxConf()> conf) {
+				bewlowTH.add(tileClassification);				
+			}			
+		}		
+	}
+	
+	public void restSumsDown(double conf){
+			
+		for(TileClassification tileClassification: bewlowTH) {
+			if(tileClassification.getMaxConf()> conf) {
+				String label =tileClassification.getBest();
+				sumConfidenzes.put(label, sumConfidenzes.get(label) +1);
+				System.out.println(tileClassification.getTile().getPath()+ " added th= "+ Double.toString(tileClassification.getMaxConf()) + " and conf= " + Double.toString(conf));				
+				bewlowTH.remove(tileClassification);
+			}
+			
+		}	
+	}
+	
+	public void restSumsUp(double conf){
+		for(TileClassification tileClassification: tileClassifications) {
+			if(tileClassification.getMaxConf()< conf &&!bewlowTH.contains(tileClassification)) {
+				String label =tileClassification.getBest();
+				sumConfidenzes.put(label, sumConfidenzes.get(label) -1);
+				System.out.println(tileClassification.getTile().getPath()+ " removed th= "+ Double.toString(tileClassification.getMaxConf()) + " and conf= " + Double.toString(conf) );				
+				bewlowTH.add(tileClassification);
+			}
+			
+		}	
+	}
+	
+	
 
 	
 
