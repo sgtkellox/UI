@@ -14,6 +14,15 @@ public class ModelDefinition {
 	public ModelDefinition() {
 			
 	}
+	
+	public ModelDefinition(String name, int resolution, int tileSize, String path, int numClasses, List<String> possibleLabels) {
+		this.name = name; 
+		this.resolution = resolution;
+		this.tileSize = tileSize;
+		this.path = path;
+		this.numClasses = numClasses;
+		this.possibleLabels = possibleLabels;
+	}
 
 	public String getName() {
 		return name;

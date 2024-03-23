@@ -23,5 +23,9 @@ public class ModelContainer {
 	public static ObservableList<ModelDefinition> getModels() {
 		return models;
 	}
+	
+	private void addDefaultModels() {
+		models.add(new ModelDefinition("EfficientNet-V2", 10, ));
+	}
 
 }
