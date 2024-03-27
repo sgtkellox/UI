@@ -2,11 +2,13 @@ package gui;
 
 
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 
 public class TileView extends BorderPane {
@@ -17,6 +19,7 @@ public class TileView extends BorderPane {
 
 	public TileView() {
 		imageView.setPreserveRatio(true);
+		this.setCenter(imageView);
 		
 		imageView.fitHeightProperty().bind(this.heightProperty());
 		imageView.fitWidthProperty().bind(this.widthProperty());
@@ -27,11 +30,15 @@ public class TileView extends BorderPane {
 		
 		Button btnLeft = new Button("<");
 		Button btnRight = new Button(">");
-		
+		//btnLeft.setPrefWidth(this.getWidth()*0.1);
+		VBox filler = new VBox();
+		this.setAlignment(imageView, Pos.BASELINE_CENTER);
+		BorderPane.setMargin(imageView, new Insets(12,12,12,12));
 		this.setLeft(btnLeft);
 		this.setRight(btnRight);
-
-		this.setCenter(imageView);
+		//this.setPadding(new Insets(10, 10, 10, 10));
+		
+		
 
 	}
 	

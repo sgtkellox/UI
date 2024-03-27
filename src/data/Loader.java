@@ -19,7 +19,7 @@ public class Loader  {
 		
 		//File selectedDirectory = directoryChooser.showDialog(new Stage());
 		
-		File selectedDirectory = new File("C:\\Users\\felix\\Desktop\\neuro\\kryoTestTiles");
+		File selectedDirectory = new File("D:\\testSets\\kryo\\glial\\384_10x\\test\\PA");
 		if(!selectedDirectory.exists()) {
 			return null;
 		}
