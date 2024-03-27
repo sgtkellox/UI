@@ -72,6 +72,10 @@ public class ModelDefinition {
 		this.possibleLabels = possibleLabels;
 	}
 	
+	public String toString() {
+		return this.name;
+	}
+	
 	
 
 }

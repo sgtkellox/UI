@@ -1,6 +1,7 @@
 package gui;
 
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,9 +110,7 @@ public class ImageBox extends StackPane {
 			this.pane.getChildren().add(rect);
 		}
 	}
-	
-	
-	
+		
 	public void hightLightDetection(Detection d) {
 		for(Node b: this.pane.getChildren()) {
 			if(b instanceof BoundingBox) {
@@ -123,5 +122,8 @@ public class ImageBox extends StackPane {
 			}
 		}
 	}
-
+	
+	public void displayTile(String file) {
+		imageView.setImage(new Image(file));
+	}
 }

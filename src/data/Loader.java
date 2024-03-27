@@ -9,24 +9,19 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import yolointerface.ImageContainer;
 
-public class Loader  {
-	
-	
-	
+public class Loader  {	
 	ImageContainer imageContainer = ImageContainer.instance();
-	
-	
-	
-	public static void loadWSIsFromTiles(){
+		
+	public static List<File> loadWSIsFromTiles(){
 		
 		
-		DirectoryChooser directoryChooser = new DirectoryChooser();
+		//DirectoryChooser directoryChooser = new DirectoryChooser();
 		
-		File selectedDirectory = directoryChooser.showDialog(new Stage());
+		//File selectedDirectory = directoryChooser.showDialog(new Stage());
 		
-		//File selectedDirectory = new File("D:\\testSets\\kryo\\non-glial\\384_10x\\LYM");
+		File selectedDirectory = new File("C:\\Users\\felix\\Desktop\\neuro\\kryoTestTiles");
 		if(!selectedDirectory.exists()) {
-			return ;
+			return null;
 		}
 		
 		ArrayList<File> files = filterImageList(selectedDirectory.listFiles());
@@ -36,9 +31,8 @@ public class Loader  {
 		
 		SlideContainer.getSlides().addAll(slideList);
 		
-		
-		
-		
+		return files;
+			
 	}
 	
 	private static ArrayList<File> filterImageList(File[] files) {

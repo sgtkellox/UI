@@ -19,6 +19,14 @@ public class LabelColorMap {
 		colorMap.put("PIT", Color.PURPLE) ;
 		colorMap.put("SCHW", Color.PINK) ;
 		
+		colorMap.put("A", Color.RED) ;
+		colorMap.put("EPN", Color.GREEN) ;
+		colorMap.put("GBM", Color.YELLOW) ;
+		colorMap.put("H3", Color.GREY) ;
+		colorMap.put("O", Color.ORANGE) ;
+		colorMap.put("PA", Color.PURPLE) ;
+		colorMap.put("PXA", Color.PINK) ;
+		
 		
 		colorStringMap.put("LYM", "red") ;
 		colorStringMap.put("MB", "green") ;
@@ -27,6 +35,14 @@ public class LabelColorMap {
 		colorStringMap.put("MET", "orange") ;
 		colorStringMap.put("PIT", "purple") ;
 		colorStringMap.put("SCHW", "pink") ;
+		
+		colorStringMap.put("A", "red") ;
+		colorStringMap.put("EPN", "green") ;
+		colorStringMap.put("GBM", "Blue") ;
+		colorStringMap.put("H3", "grey") ;
+		colorStringMap.put("O", "orange") ;
+		colorStringMap.put("PA", "purple") ;
+		colorStringMap.put("PXA", "pink") ;
 		
 		
 	}

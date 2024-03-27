@@ -6,6 +6,9 @@ public class Tile {
 	private int x;
 	private int y;
 	
+	private int xShift;
+	private int yShift;
+	
 	private int  size;
 	private int level;
 	
@@ -62,6 +65,18 @@ public class Tile {
 	}
 	public void setPath(String path) {
 		this.path = path;
+	}
+	public int getxShift() {
+		return xShift;
+	}
+	public void setxShift(int xShift) {
+		this.xShift = xShift;
+	}
+	public int getyShift() {
+		return yShift;
+	}
+	public void setyShift(int yShift) {
+		this.yShift = yShift;
 	}
 	
 	

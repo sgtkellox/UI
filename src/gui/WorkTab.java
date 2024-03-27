@@ -134,7 +134,8 @@ public class WorkTab extends VBox {
 		// selected items change).
 		modelComboBox.getCheckModel().getCheckedItems().addListener(new ListChangeListener<ModelDefinition>() {
 			public void onChanged(ListChangeListener.Change<? extends ModelDefinition> c) {
-				System.out.println(modelComboBox.getCheckModel().getCheckedItems());
+				modelContainer.getCurrentChecked().clear();
+				modelContainer.getCurrentChecked().addAll(modelComboBox.getCheckModel().getCheckedItems());
 			}
 		});
 		modelComboBox.setTitle("Select a Model");
@@ -236,6 +237,8 @@ public class WorkTab extends VBox {
 		progressBar.progressProperty().unbind();
 		progressBar.setProgress(0);
 		EffNet effNet = new EffNet();
+		
+		effNet.setMd(modelContainer.getCurrentChecked().get(0));
 
 		effNet.setSlide(SlideContainer.getSlides().get(SlideContainer.getCurrentSelectedIndex()));
 		effNet.setConf(currentConfNiveau);

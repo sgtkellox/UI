@@ -4,14 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-public class TileClassification {
+public class TileClassification implements Comparable<TileClassification>  {
 	
 	private String best;
-	private double maxConf;
+	private Double maxConf;
 	private HashMap<String,Double> propabilities;
 	private Tile tile;
-	private int xShift;
-	private int yShift;
+
 	
 	
 	public TileClassification(Tile tile,List<String> labels) {
@@ -35,8 +34,8 @@ public class TileClassification {
 	}
 	
 	public int[] getScaledPosition() {
-		int x = (tile.getX()-xShift)/tile.getSize();
-		int y = (tile.getY()-yShift)/tile.getSize();
+		int x = (tile.getX()-tile.getxShift())/tile.getSize();
+		int y = (tile.getY()-tile.getyShift())/tile.getSize();
 		
 		int[] scaledPos = new int[2];
 		scaledPos[0] = x;
@@ -60,10 +59,10 @@ public class TileClassification {
 		this.best = best;
 	}
 	
-	public double getMaxConf() {
+	public Double getMaxConf() {
 		return maxConf;
 	}
-	public void setMaxConf(double maxConf) {
+	public void setMaxConf(Double maxConf) {
 		this.maxConf = maxConf;
 	}
 	
@@ -78,13 +77,14 @@ public class TileClassification {
 		this.maxConf = max;
 	}
 	
-	private void printProps() {
+	public void printProps() {
 		for(Entry<String, Double> e : this.propabilities.entrySet()) {
 			System.out.println(e.getKey() + Double.toString(e.getValue()));
 		}
 	}
 	
 	private void extractJsonInformation(String s) {
+		
 		s = s.replaceAll("\\{", "");
 		s = s.replaceAll("\\}", "");
 		s = s.replaceAll("\\[", "");
@@ -131,4 +131,10 @@ public class TileClassification {
 		this.propabilities = map;
 		
 	}
+	
+	@Override
+	public int compareTo(TileClassification o) {
+		return this.getMaxConf().compareTo(o.maxConf);
+	}
+	
 }

@@ -40,7 +40,7 @@ public class Main extends Application {
 			
 			
 			primaryStage.setScene(scene);
-			//root.setSizeChangeListener(primaryStage);
+			root.setSizeChangeListener(primaryStage);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();

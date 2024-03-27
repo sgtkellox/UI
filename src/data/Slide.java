@@ -110,8 +110,12 @@ public class Slide {
 		result[1] = xMax + tileSize;
 		result[2] = yMin;
 		result[3] = yMax + tileSize;
-
-
+		
+		for (Tile t : tiles) {
+			t.setxShift(xMin);
+			t.setyShift(yMin);
+		}
+		
 		return result;
 	}
 

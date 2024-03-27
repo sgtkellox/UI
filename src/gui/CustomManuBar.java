@@ -1,5 +1,9 @@
 package gui;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import data.Loader;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -9,7 +13,7 @@ import javafx.scene.control.MenuItem;
 public class CustomManuBar extends MenuBar {
 	
 	
-	public CustomManuBar() {
+	public CustomManuBar(ImageGridPane display) {
 		this.getStylesheets().add(String.valueOf(this.getClass().getResource("css/RootPane.css")));
 		Menu menuFile = new Menu("File");
 		Menu menuSettings = new Menu("Settings");
@@ -30,7 +34,14 @@ public class CustomManuBar extends MenuBar {
 		
 		loadTilesItem.setOnAction(e->{
 			
-			Loader.loadWSIsFromTiles();
+			List<File> files = Loader.loadWSIsFromTiles();
+			
+			List<String> paths = new ArrayList<String>();
+			
+			for(File f: files) {
+				paths.add(f.getAbsolutePath());
+			}
+			display.displayTile(paths.get(0));
 			
 		});
 		

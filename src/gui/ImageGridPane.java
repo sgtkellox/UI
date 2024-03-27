@@ -1,17 +1,10 @@
 package gui;
 
 
-import java.util.ArrayList;
 
 import data.SlideClassification;
-import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.control.SplitPane;
-import javafx.scene.image.Image;
-import yolointerface.Detection;
-import yolointerface.GroundTruth;
-
-
 
 public class ImageGridPane extends SplitPane {
 	
@@ -20,9 +13,8 @@ public class ImageGridPane extends SplitPane {
 	MapView mapView = new MapView();
 	TableViewPane table = new TableViewPane(this);
 	
-	ImageBox rgbPane = new ImageBox();
-	
-	
+	TileView tileBox = new TileView();
+		
 	
 	public ImageGridPane() {
 		
@@ -35,25 +27,20 @@ public class ImageGridPane extends SplitPane {
 		
 	
 		top.getItems().addAll(mapView,statsView);
-		bot.getItems().addAll(rgbPane,table);
+		bot.getItems().addAll(tileBox,table);
 		
 		this.getItems().addAll(top,bot);	
 		 
 	}
 	
-	public void showRGBImage(Image image) {
-		rgbPane.showImage(image);
+	
+	
+	public void displayTile(String path) {
+		tileBox.displayTile(path);
 	}
 	
 	
-	public void drawRGBBoundingBoxes(ObservableList<Detection> s) {
-		rgbPane.drawBoundingBoxes(s);
-		table.setData(s);
-	}
 	
-	public void drawRGBGroundTruth(ArrayList<GroundTruth> gds) {
-		rgbPane.drawGroundTruth(gds);	
-	}
 	
 	public void showWeightedVote(SlideClassification classification) {
 		statsView.showStats(classification);
@@ -62,14 +49,7 @@ public class ImageGridPane extends SplitPane {
 	public void showMap(SlideClassification classification,double confThreshOld) {
 		mapView.makeVisualisation(classification,confThreshOld);
 	}
-		
-	
-	
-	public void changeOpacitys(double opacity) {
-		rgbPane.setBbOpacity(opacity);
-		
-	}
-	
+			
 	
 
 }

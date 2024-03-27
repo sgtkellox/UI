@@ -31,7 +31,7 @@ public class MapView extends StackPane {
 		int tileSize = slideClassification.getTileClassifications().get(0).getTile().getSize();
 
 		int width = (slideClassification.getSlide().getWsiWith() / tileSize) * pixelSize + offSet;
-		int height = slideClassification.getSlide().getWsiHeight() / tileSize * pixelSize + offSet;
+		int height = (slideClassification.getSlide().getWsiHeight() / tileSize) * pixelSize + offSet;
 		
 		WritableImage resultImage = new WritableImage(width, height);
 		PixelWriter writer = resultImage.getPixelWriter();

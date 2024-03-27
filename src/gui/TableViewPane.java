@@ -36,9 +36,7 @@ public class TableViewPane extends VBox {
             row.setOnMouseClicked(event -> {
                 if (! row.isEmpty() ) {
                 	Detection rowData = row.getItem();
-                	if(rowData.getType().equals(ImageType.RGB)) {
-                		parent.rgbPane.hightLightDetection(rowData);
-                	}
+
                     
                 }
             });
